@@ -26,7 +26,7 @@ public class DeliveryService {
                     if (storeNames.contains(tokens[1])){
                         System.out.println("ERROR:store_identifier_already_exists");
                     } else {
-                        Store store = new Store(tokens[1], Double.parseDouble(tokens[2]));
+                        Store store = new Store(tokens[1], Integer.parseInt(tokens[2]));
                         // add to hashset and treemap;
                         storeNames.add(tokens[1]);
                         stores.put(tokens[1], store);
@@ -47,11 +47,11 @@ public class DeliveryService {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     } else {
                         Store store = stores.get(tokens[0]);
-                        Item item = new Item(tokens[2], Double.parseDouble(tokens[3]), tokens[1]);
+                        Item item = new Item(tokens[2], Integer.parseInt(tokens[3]), tokens[1]);
                         store.addItem(item.getName(), item);
                     }
-                // The display_items command displays the information about all the items that are available for
-                //request/purchase at a specific store.
+                    // The display_items command displays the information about all the items that are available for
+                    //request/purchase at a specific store.
                 } else if (tokens[0].equals("display_items")) {
                     System.out.println("store: " + tokens[1]);
                     if (storeNames.contains(tokens[1])){
@@ -62,7 +62,7 @@ public class DeliveryService {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
 
-                // The make_pilot command creates a pilot who could fly a drone later to support grocery deliveries.
+                    // The make_pilot command creates a pilot who could fly a drone later to support grocery deliveries.
                 } else if (tokens[0].equals("make_pilot")) {
                     if (pilotAccounts.contains(tokens[1])){
                         System.out.println("ERROR:pilot_identifier_already_exists");
@@ -76,18 +76,50 @@ public class DeliveryService {
                         licenceIDs.add(tokens[6]);
                         System.out.println("OK:change_completed");
                     }
-
+                    // display the information about all the pilots who’ve been introduced in the system.
                 } else if (tokens[0].equals("display_pilots")) {
-                    System.out.println("no parameters needed");
-
+                    Set<String> keys = pilots.keySet();
+                    for (String key: keys) {
+                        Pilot pilot = pilots.get(key);
+                        System.out.println("name:"+pilot.getFirstName()+"_"+pilot.getLastName()+
+                                ",phone:"+pilot.getPhoneNumber()+",taxID:"+pilot.getTaxID()+
+                                ",licenseID"+pilot.getLicenseID()+",experience:"+pilot.getExperience());
+                    }
+                    System.out.println("OK:display_completed");
+                    // create a drone that can be used to deliver groceries to the appropriate customer
+                    // when an order has been purchased
                 } else if (tokens[0].equals("make_drone")) {
-                    System.out.println("store: " + tokens[1] + ", drone: " + tokens[2] + ", capacity: " + tokens[3] + ", fuel: " + tokens[4]);
-
+                    if (storeNames.contains(tokens[1])){
+                        Store store = stores.get(tokens[1]);
+                        Drone drone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]),
+                                Integer.parseInt(tokens[4]));
+                        store.addDrone(drone.getId(), drone);
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                    // displays the information about all the drones that can be used to
+                    // deliver grocery orders for a specific store.
                 } else if (tokens[0].equals("display_drones")) {
-                    System.out.println("store: " + tokens[1]);
-
+                    if (storeNames.contains(tokens[1])) {
+                        Store store = stores.get(tokens[1]);
+                        store.displayDrones();
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                    // assign the given pilot to take control of the given drone
                 } else if (tokens[0].equals("fly_drone")) {
-                    System.out.println("store: " + tokens[1] + ", drone: " + tokens[2] + ", pilot: " + tokens[3]);
+                    if (storeNames.contains(tokens[1])) {
+                        if (pilotAccounts.contains(tokens[3])){
+                            Store store = stores.get(tokens[1]);
+                            Pilot pilot = pilots.get(tokens[3]);
+                            store.flyDrone(tokens[2], pilot);
+                        } else {
+                            System.out.println("ERROR:pilot_identifier_does_not_exist");
+                        }
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
 
                 } else if (tokens[0].equals("make_customer")) {
                     System.out.print("account: " + tokens[1] + ", first_name: " + tokens[2] + ", last_name: " + tokens[3]);
