@@ -7,16 +7,15 @@ public class Drone {
     private String id;
     private int capacity;
     private int tripsBeforeRefueling;
-    private int currentLoad;
-    private Pilot controlledBy;
+    private int currentLoad=0;
+    private Pilot controlledBy=null;
     private ArrayList<Order> orders = new ArrayList<>();
 
-    public Drone(String store, String id, int capacity, int tripsBeforeRefueling, int currentLoad) {
+    public Drone(String store, String id, int capacity, int tripsBeforeRefueling) {
         this.store = store;
         this.id = id;
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
-        this.currentLoad = currentLoad;
     }
 
     public void assign(Pilot pilot){
@@ -31,13 +30,25 @@ public class Drone {
     }
 
     public void removeOrder(Order order){
+        this.currentLoad -= order.getWeight();
         this.orders.remove(order);
     }
-    public void remove(){
+    public void removePilot(){
         this.controlledBy = null;
     }
-    public void addWeight(int weight){
 
+    public boolean checkCap(int weight){
+        // check drone has enough remaining capacity to carry the new item as part of its payload.
+        if (weight > (this.capacity-this.currentLoad)) {
+            System.out.println("ERROR:drone_cant_carry_new_item");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void updateLoad(int weight) {
+        this.currentLoad += weight;
     }
     public int remainingCap(){
         return this.capacity-this.currentLoad;
@@ -51,7 +62,7 @@ public class Drone {
         return id;
     }
 
-    public double getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 

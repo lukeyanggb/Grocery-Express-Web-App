@@ -1,0 +1,16 @@
+store: kroger, revenue: 33000
+
+item:
+    pot roast, weight: 9
+    cheesecake, weight: 4
+
+pilot: Fig, drone: 1
+
+drone: 1, cap: 40, fuel: 3
+
+customer: aaple2, credit: 100, pending: 0
+
+order: purchaseA, drone: 1, customer: aaple2
+        cheesecake, 2, 5
+        pot_roast, quant: 3, unit: 9
+

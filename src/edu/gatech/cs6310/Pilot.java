@@ -23,7 +23,7 @@ public class Pilot {
 
     public void assign(Drone drone){
         if (this.control != null) {
-            this.control.remove();
+            this.control.removePilot();
         }
         this.control = drone;
     }
@@ -35,9 +35,7 @@ public class Pilot {
     public void addExperience(){
         this.experience += 1;
     }
-    public String getAccount() {
-        return account;
-    }
+
     public String getFirstName() {
         return firstName;
     }

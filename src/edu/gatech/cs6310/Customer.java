@@ -7,6 +7,7 @@ public class Customer {
     private String phoneNumber;
     private int rating;
     private int credits;
+    private int outstandingOrders=0;
 
     public Customer(String account, String firstName, String lastName, String phoneNumber, int rating,
                  int credits) {
@@ -18,9 +19,23 @@ public class Customer {
         this.credits = credits;
     }
 
-    public void deductCredits(int credits){
-        this.credits -= credits;
+    // check the customer has enough remaining credits to afford the new item;
+    public boolean hasCredits(int cost){
+        if ((this.credits-this.outstandingOrders) >= cost) {
+            return true;
+        } else {
+            System.out.println("ERROR:customer_cant_afford_new_item");
+            return false;
+        }
     }
+    public void addOutstandingOrders(int cost){
+        this.outstandingOrders += cost;
+    }
+
+    public void deductCredits(int cost){
+        this.credits-=cost;
+    }
+
     public String getFirstName() {
         return firstName;
     }

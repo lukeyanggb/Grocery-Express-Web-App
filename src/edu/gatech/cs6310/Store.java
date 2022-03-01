@@ -5,9 +5,9 @@ import java.util.TreeMap;
 public class Store {
     private String name;
     private int revenue;
-    private TreeMap<String, Item> items = new TreeMap<String, Item>();
-    private TreeMap<String, Drone> drones = new TreeMap<String, Drone>();
-    private TreeMap<String, Order> orders = new TreeMap<String, Order>();
+    private TreeMap<String, Item> items = new TreeMap<>();
+    private TreeMap<String, Drone> drones = new TreeMap<>();
+    private TreeMap<String, Order> orders = new TreeMap<>();
 
     public Store(String name, int revenue){
         this.name = name;
@@ -15,7 +15,7 @@ public class Store {
     }
 
     public void addItem(String name, Item item){
-        if (items.containsKey(item)){
+        if (items.containsKey(name)){
             System.out.println("ERROR:item_identifier_already_exists");
         } else {
             items.put(name, item);
@@ -46,12 +46,12 @@ public class Store {
             Drone drone = drones.get(key);
             if (drone.getControlledBy() != null) {
                 Pilot pilot = drone.getControlledBy();
-                System.out.println("droneID:"+drone.getId()+",total_cap"+drone.getCapacity()+
+                System.out.println("droneID:"+drone.getId()+",total_cap:"+drone.getCapacity()+
                         ",num_orders:"+drone.getNumOrders()+",remaining_cap:"+drone.remainingCap()+
                         ",trips_left:"+drone.getTripsBeforeRefueling()+",flown_by:"+
                         pilot.getFirstName()+"_"+pilot.getLastName());
             } else {
-                System.out.println("droneID:"+drone.getId()+",total_cap"+drone.getCapacity()+
+                System.out.println("droneID:"+drone.getId()+",total_cap:"+drone.getCapacity()+
                         ",num_orders:"+drone.getNumOrders()+",remaining_cap:"+drone.remainingCap()+
                         ",trips_left:"+drone.getTripsBeforeRefueling());
             }
@@ -71,17 +71,11 @@ public class Store {
     }
 
     public void createOrder(String id, String droneID, Customer customer){
-        if (orders.containsKey(id)) {
-            System.out.println("ERROR:order_identifier_already_exists");
-        } else if (!drones.containsKey(droneID)) {
-            System.out.println("ERROR:drone_identifier_does_not_exist");
-        } else {
-            Drone drone = drones.get(droneID);
-            Order order = new Order(id, drone, customer);
-            orders.put(id, order);
-            drone.addOrder(order);
-            System.out.println("OK:change_completed");
-        }
+        Drone drone = drones.get(droneID);
+        Order order = new Order(id, drone, customer);
+        orders.put(id, order);
+        drone.addOrder(order);
+        System.out.println("OK:change_completed");
     }
 
     public void purchaseOrder(String id){
@@ -104,10 +98,10 @@ public class Store {
                 // the order must otherwise be removed from the system.
                 orders.remove(id);
                 System.out.println("OK:change_completed");
-            } else if (drone.getTripsBeforeRefueling()>=1){
-                System.out.println("ERROR:drone_needs_fuel");
-            } else {
+            } else if (pilot == null){
                 System.out.println("ERROR:drone_needs_pilot");
+            } else {
+                System.out.println("ERROR:drone_needs_fuel");
             }
         } else {
             System.out.println("ERROR:order_identifier_does_not_exist");
@@ -117,8 +111,13 @@ public class Store {
     public void cancelOrder(String id){
         if (orders.containsKey(id)) {
             Order order = orders.get(id);
+            Customer customer = order.getRequestedBy();
             Drone drone = order.getDesignatedDrone();
+            // release pending cost to credits
+            customer.addOutstandingOrders(-order.getCost());
+            // remove from drone's orders list
             drone.removeOrder(order);
+            // remove from orders list
             orders.remove(id);
             System.out.println("OK:change_completed");
         } else {
@@ -134,8 +133,6 @@ public class Store {
         System.out.println("OK:display_completed");
     }
 
-    // order:tokens[2],item:tokens[3],quantity:tokens[4],unit_price:tokens[5]
-//                        store.requestItem(tokens[2], tokens[3], tokens[4], tokens[5]);
     public void requestItem(String orderID, String itemName, int quantity, int unitPrice){
         if (!orders.containsKey(orderID)){
             System.out.println("ERROR:order_identifier_does_not_exist");
@@ -146,23 +143,32 @@ public class Store {
             Drone drone = order.getDesignatedDrone();
             Customer customer = order.getRequestedBy();
             Item item = items.get(itemName);
-            int amount = quantity*unitPrice;
+            int cost = quantity*unitPrice;
             int weight = item.getWeight()*quantity;
+            // item already ordered
+            if (order.hasItem(itemName)){
+                System.out.println("ERROR:item_already_ordered");
                 // check the customer has enough remaining credits to afford the new item;
-            if (amount > customer.getCredits()){
-                System.out.println("ERROR:customer_cant_afford_new_item");
-                // check drone has enough remaining capacity to carry the new item as part of its payload.
-            } else if (weight > drone.remainingCap()) {
-                System.out.println("ERROR:drone_cant_carry_new_item");
-            } else {
+            } else if (customer.hasCredits(cost) && drone.checkCap(weight)) {
+                customer.addOutstandingOrders(cost);
+                drone.updateLoad(weight);
                 order.requestItem(item, quantity, unitPrice);
+                System.out.println("OK:change_completed");
             }
         }
     }
+    public boolean hasOrder(String id) {
+        return orders.containsKey(id);
+    }
+
+    public boolean hasDrone(String id) {
+        return drones.containsKey(id);
+    }
+
     public String getName() {
         return name;
     }
-    public double getRevenue() {
+    public int getRevenue() {
         return revenue;
     }
 }

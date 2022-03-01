@@ -9,13 +9,13 @@ public class DeliveryService {
         String[] tokens;
         final String DELIMITER = ",";
         // create TreeMaps, Set;
-        Set<String> storeNames = new HashSet<String>();
-        TreeMap<String, Store> stores = new TreeMap<String, Store>();
-        Set<String> licenceIDs = new HashSet<String>();
-        Set<String> pilotAccounts = new HashSet<String>();
-        TreeMap<String, Pilot> pilots = new TreeMap<String, Pilot>();
-        Set<String> customerAccounts = new HashSet<String>();
-        TreeMap<String, Customer> customers = new TreeMap<String, Customer>();
+        Set<String> storeNames = new HashSet<>();
+        TreeMap<String, Store> stores = new TreeMap<>();
+        Set<String> licenceIDs = new HashSet<>();
+        Set<String> pilotAccounts = new HashSet<>();
+        TreeMap<String, Pilot> pilots = new TreeMap<>();
+        Set<String> customerAccounts = new HashSet<>();
+        TreeMap<String, Customer> customers = new TreeMap<>();
 
         while (true) {
             try {
@@ -39,23 +39,22 @@ public class DeliveryService {
                     Set<String> keys = stores.keySet();
                     for (String key: keys) {
                         Store store = stores.get(key);
-                        System.out.println("name:" + store.getName() + "revenue:" + store.getRevenue());
+                        System.out.println("name:" + store.getName() + ",revenue:" + store.getRevenue());
                     }
                     System.out.println("OK:display_completed");
 
                 } else if (tokens[0].equals("sell_item")) {
-                    System.out.println("store: " + tokens[1] + ", item: " + tokens[2] + ", weight: " + tokens[3]);
                     if (!storeNames.contains(tokens[1])){
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     } else {
-                        Store store = stores.get(tokens[0]);
+                        Store store = stores.get(tokens[1]);
+                        // String name, int weight, String store
                         Item item = new Item(tokens[2], Integer.parseInt(tokens[3]), tokens[1]);
                         store.addItem(item.getName(), item);
                     }
                     // The display_items command displays the information about all the items that are available for
                     //request/purchase at a specific store.
                 } else if (tokens[0].equals("display_items")) {
-                    System.out.println("store: " + tokens[1]);
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         store.displayItems();
@@ -85,7 +84,7 @@ public class DeliveryService {
                         Pilot pilot = pilots.get(key);
                         System.out.println("name:"+pilot.getFirstName()+"_"+pilot.getLastName()+
                                 ",phone:"+pilot.getPhoneNumber()+",taxID:"+pilot.getTaxID()+
-                                ",licenseID"+pilot.getLicenseID()+",experience:"+pilot.getExperience());
+                                ",licenseID:"+pilot.getLicenseID()+",experience:"+pilot.getExperience());
                     }
                     System.out.println("OK:display_completed");
                     // create a drone that can be used to deliver groceries to the appropriate customer
@@ -93,9 +92,9 @@ public class DeliveryService {
                 } else if (tokens[0].equals("make_drone")) {
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
-                        // String store, String id, int capacity, int tripsBeforeRefueling, int currentLoad
+                        // String store, String id, int capacity, int tripsBeforeRefueling
                         Drone drone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]),
-                                Integer.parseInt(tokens[4]), 0);
+                                Integer.parseInt(tokens[4]));
                         store.addDrone(drone.getId(), drone);
                     } else {
                         System.out.println("ERROR:store_identifier_does_not_exist");
@@ -147,18 +146,21 @@ public class DeliveryService {
                     // create the initial “stub” for an order at a given store for a given customer
                 } else if (tokens[0].equals("start_order")) {
                     if (storeNames.contains(tokens[1])){
-                        if (customerAccounts.contains(tokens[4])) {
-                            Store store = stores.get(tokens[1]);
+                        Store store = stores.get(tokens[1]);
+                        if (store.hasOrder(tokens[2])){
+                            System.out.println("ERROR:order_identifier_already_exists");
+                        } else if (!store.hasDrone(tokens[3])){
+                            System.out.println("ERROR:drone_identifier_does_not_exist");
+                        } else if (!customerAccounts.contains(tokens[4])) {
+                            System.out.println("ERROR:customer_identifier_does_not_exist");
+                        } else {
                             Customer customer = customers.get(tokens[4]);
                             // String id, String droneID, Customer customer
                             store.createOrder(tokens[2], tokens[3], customer);
-                        } else {
-                            System.out.println("ERROR:customer_identifier_does_not_exist");
                         }
                     } else {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
-                    System.out.println("store: " + tokens[1] + ", order: " + tokens[2] + ", drone: " + tokens[3] + ", customer: " + tokens[4]);
                     // display information about all the orders at a given store.
                 } else if (tokens[0].equals("display_orders")) {
                     if (storeNames.contains(tokens[1])){
@@ -169,6 +171,7 @@ public class DeliveryService {
                     }
                     // add an item to the designated order
                 } else if (tokens[0].equals("request_item")) {
+                    // store:tokens[1],order:tokens[2],item:tokens[3],quantity:tokens[4],unit_price:tokens[5]
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         // order:tokens[2],item:tokens[3],quantity:tokens[4],unit_price:tokens[5]
@@ -180,7 +183,7 @@ public class DeliveryService {
                     //complete the purchase of the order and the delivery of the
                     //groceries to the appropriate customer
                 } else if (tokens[0].equals("purchase_order")) {
-                    if (storeNames.contains(tokens)){
+                    if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         store.purchaseOrder(tokens[2]);
                     } else {
@@ -188,7 +191,7 @@ public class DeliveryService {
                     }
                     // remove the order from the system without otherwise changing the system’ state
                 } else if (tokens[0].equals("cancel_order")) {
-                    if (storeNames.contains(tokens)){
+                    if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         store.cancelOrder(tokens[2]);
                     } else {
@@ -199,8 +202,6 @@ public class DeliveryService {
                     System.out.println("stop acknowledged");
                     break;
 
-                } else {
-                    System.out.println("command " + tokens[0] + " NOT acknowledged");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
