@@ -8,7 +8,7 @@ public class Pilot {
     private String taxID;
     private String licenseID;
     private int experience;
-    private String control;
+    private Drone control;
 
     public Pilot(String account, String firstName, String lastName, String phoneNumber, String taxID,
                  String licenseID, int experience) {
@@ -21,10 +21,20 @@ public class Pilot {
         this.experience = experience;
     }
 
-    public void assign(String id){
-        this.control = id;
+    public void assign(Drone drone){
+        if (this.control != null) {
+            this.control.remove();
+        }
+        this.control = drone;
     }
 
+    public void remove(){
+        this.control = null;
+    }
+
+    public void addExperience(){
+        this.experience += 1;
+    }
     public String getAccount() {
         return account;
     }

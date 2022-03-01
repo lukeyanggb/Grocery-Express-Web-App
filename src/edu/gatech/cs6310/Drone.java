@@ -7,19 +7,46 @@ public class Drone {
     private String id;
     private int capacity;
     private int tripsBeforeRefueling;
-    private String controlledBy;
-    private ArrayList<String> orders;
+    private int currentLoad;
+    private Pilot controlledBy;
+    private ArrayList<Order> orders = new ArrayList<>();
 
-    public Drone(String store, String id, int capacity, int tripsBeforeRefueling) {
+    public Drone(String store, String id, int capacity, int tripsBeforeRefueling, int currentLoad) {
         this.store = store;
         this.id = id;
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
+        this.currentLoad = currentLoad;
     }
 
-    public void assign(String pilotAccount){
-        this.controlledBy = pilotAccount;
+    public void assign(Pilot pilot){
+        if (this.controlledBy != null){
+            this.controlledBy.remove();
+        }
+        this.controlledBy = pilot;
     }
+
+    public void addOrder(Order order){
+        this.orders.add(order);
+    }
+
+    public void removeOrder(Order order){
+        this.orders.remove(order);
+    }
+    public void remove(){
+        this.controlledBy = null;
+    }
+    public void addWeight(int weight){
+
+    }
+    public int remainingCap(){
+        return this.capacity-this.currentLoad;
+    }
+
+    public void reduceFuel(){
+        this.tripsBeforeRefueling -= 1;
+    }
+
     public String getId() {
         return id;
     }
@@ -36,11 +63,7 @@ public class Drone {
         return orders.size();
     }
 
-    public int remainingCap(){
-        int load = 0;
-//        for (int i=0; i < orders.size(); i++){
-//
-//        }
-        return this.capacity-load;
+    public Pilot getControlledBy() {
+        return controlledBy;
     }
 }

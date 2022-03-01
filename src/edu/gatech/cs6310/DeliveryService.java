@@ -14,6 +14,8 @@ public class DeliveryService {
         Set<String> licenceIDs = new HashSet<String>();
         Set<String> pilotAccounts = new HashSet<String>();
         TreeMap<String, Pilot> pilots = new TreeMap<String, Pilot>();
+        Set<String> customerAccounts = new HashSet<String>();
+        TreeMap<String, Customer> customers = new TreeMap<String, Customer>();
 
         while (true) {
             try {
@@ -91,8 +93,9 @@ public class DeliveryService {
                 } else if (tokens[0].equals("make_drone")) {
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
+                        // String store, String id, int capacity, int tripsBeforeRefueling, int currentLoad
                         Drone drone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]),
-                                Integer.parseInt(tokens[4]));
+                                Integer.parseInt(tokens[4]), 0);
                         store.addDrone(drone.getId(), drone);
                     } else {
                         System.out.println("ERROR:store_identifier_does_not_exist");
@@ -119,29 +122,78 @@ public class DeliveryService {
                     } else {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
-
-
+                    // create a customer who can start orders, request items and
+                    // eventually purchase (or cancel) those orders
                 } else if (tokens[0].equals("make_customer")) {
-                    System.out.print("account: " + tokens[1] + ", first_name: " + tokens[2] + ", last_name: " + tokens[3]);
-                    System.out.println(", phone: " + tokens[4] + ", rating: " + tokens[5] + ", credit: " + tokens[6]);
-
+                    if (customerAccounts.contains(tokens[1])){
+                        System.out.println("ERROR:customer_identifier_already_exists");
+                    } else {
+                        Customer customer = new Customer(tokens[1], tokens[2], tokens[3], tokens[4],
+                                Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+                        customerAccounts.add(tokens[1]);
+                        customers.put(tokens[1], customer);
+                        System.out.println("OK:change_completed");
+                    }
+                    // displays all the customers who have been introduced in the system
                 } else if (tokens[0].equals("display_customers")) {
-                    System.out.println("no parameters needed");
-
+                    Set<String> keys = customers.keySet();
+                    for (String key: keys) {
+                        Customer customer = customers.get(key);
+                        System.out.println("name:"+customer.getFirstName()+"_"+customer.getLastName()+
+                                ",phone:"+customer.getPhoneNumber()+",rating:"+customer.getRating()+
+                                ",credit:"+customer.getCredits());
+                    }
+                    System.out.println("OK:display_completed");
+                    // create the initial “stub” for an order at a given store for a given customer
                 } else if (tokens[0].equals("start_order")) {
+                    if (storeNames.contains(tokens[1])){
+                        if (customerAccounts.contains(tokens[4])) {
+                            Store store = stores.get(tokens[1]);
+                            Customer customer = customers.get(tokens[4]);
+                            // String id, String droneID, Customer customer
+                            store.createOrder(tokens[2], tokens[3], customer);
+                        } else {
+                            System.out.println("ERROR:customer_identifier_does_not_exist");
+                        }
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
                     System.out.println("store: " + tokens[1] + ", order: " + tokens[2] + ", drone: " + tokens[3] + ", customer: " + tokens[4]);
-
+                    // display information about all the orders at a given store.
                 } else if (tokens[0].equals("display_orders")) {
-                    System.out.println("store: " + tokens[1]);
-
+                    if (storeNames.contains(tokens[1])){
+                        Store store = stores.get(tokens[1]);
+                        store.displayOrders();
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                    // add an item to the designated order
                 } else if (tokens[0].equals("request_item")) {
-                    System.out.println("store: " + tokens[1] + ", order: " + tokens[2] + ", item: " + tokens[3] + ", quantity: " + tokens[4] + ", unit_price: " + tokens[5]);
-
+                    if (storeNames.contains(tokens[1])){
+                        Store store = stores.get(tokens[1]);
+                        // order:tokens[2],item:tokens[3],quantity:tokens[4],unit_price:tokens[5]
+                        store.requestItem(tokens[2], tokens[3], Integer.parseInt(tokens[4]),
+                                Integer.parseInt(tokens[5]));
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                    //complete the purchase of the order and the delivery of the
+                    //groceries to the appropriate customer
                 } else if (tokens[0].equals("purchase_order")) {
-                    System.out.println("store: " + tokens[1] + ", order: " + tokens[2]);
-
+                    if (storeNames.contains(tokens)){
+                        Store store = stores.get(tokens[1]);
+                        store.purchaseOrder(tokens[2]);
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                    // remove the order from the system without otherwise changing the system’ state
                 } else if (tokens[0].equals("cancel_order")) {
-                    System.out.println("store: " + tokens[1] + ", order: " + tokens[2]);
+                    if (storeNames.contains(tokens)){
+                        Store store = stores.get(tokens[1]);
+                        store.cancelOrder(tokens[2]);
+                    } else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
 
                 } else if (tokens[0].equals("stop")) {
                     System.out.println("stop acknowledged");
@@ -155,7 +207,6 @@ public class DeliveryService {
                 System.out.println();
             }
         }
-
         System.out.println("simulation terminated");
         commandLineInput.close();
     }
