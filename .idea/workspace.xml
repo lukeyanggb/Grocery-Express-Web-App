@@ -2,20 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d3f706a-7dee-42ba-a746-d71a99207fad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/2022-01-A3/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/2022-01-A3/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/DeliveryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/DeliveryService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Pilot.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Pilot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Store.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/2022-01-A3/edu/gatech/cs6310/Store.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/batch.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/batch.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker_results/batch_results.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docker_results/batch_results.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/Customer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/DeliveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/DeliveryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/Drone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/Drone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/Pilot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/Pilot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/gatech/cs6310/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/gatech/cs6310/Store.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +37,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">

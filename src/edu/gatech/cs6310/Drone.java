@@ -3,7 +3,6 @@ package edu.gatech.cs6310;
 import java.util.ArrayList;
 
 public class Drone {
-    private String store;
     private String id;
     private int capacity;
     private int tripsBeforeRefueling;
@@ -11,8 +10,7 @@ public class Drone {
     private Pilot controlledBy=null;
     private ArrayList<Order> orders = new ArrayList<>();
 
-    public Drone(String store, String id, int capacity, int tripsBeforeRefueling) {
-        this.store = store;
+    public Drone(String id, int capacity, int tripsBeforeRefueling) {
         this.id = id;
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;

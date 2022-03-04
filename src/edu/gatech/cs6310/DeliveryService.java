@@ -93,7 +93,7 @@ public class DeliveryService {
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         // String store, String id, int capacity, int tripsBeforeRefueling
-                        Drone drone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]),
+                        Drone drone = new Drone(tokens[2], Integer.parseInt(tokens[3]),
                                 Integer.parseInt(tokens[4]));
                         store.addDrone(drone.getId(), drone);
                     } else {

@@ -1,6 +1,6 @@
 package edu.gatech.cs6310;
 
-public class Pilot {
+public class Pilot extends User {
     private String account;
     private String firstName;
     private String lastName;
@@ -12,10 +12,8 @@ public class Pilot {
 
     public Pilot(String account, String firstName, String lastName, String phoneNumber, String taxID,
                  String licenseID, int experience) {
+        super(firstName, lastName, phoneNumber);
         this.account = account;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.taxID = taxID;
         this.licenseID = licenseID;
         this.experience = experience;
@@ -34,18 +32,6 @@ public class Pilot {
 
     public void addExperience(){
         this.experience += 1;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public String getTaxID() {

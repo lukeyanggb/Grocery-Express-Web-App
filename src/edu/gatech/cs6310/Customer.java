@@ -1,6 +1,6 @@
 package edu.gatech.cs6310;
 
-public class Customer {
+public class Customer extends User {
     private String account;
     private String firstName;
     private String lastName;
@@ -11,6 +11,7 @@ public class Customer {
 
     public Customer(String account, String firstName, String lastName, String phoneNumber, int rating,
                  int credits) {
+        super(firstName, lastName, phoneNumber);
         this.account = account;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,18 +35,6 @@ public class Customer {
 
     public void deductCredits(int cost){
         this.credits-=cost;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public int getRating() {
