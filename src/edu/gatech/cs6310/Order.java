@@ -18,16 +18,20 @@ public class Order {
         this.requestedBy = requestedBy;
     }
     public void requestItem(Item item, int quantity, int unitPrice){
-        if (items.containsKey(item)){
-            System.out.println("ERROR:item_already_ordered");
-        } else {
-            int cost = quantity*unitPrice;
-            int weight = quantity*item.getWeight();
-            int[] itemInfo = {quantity, unitPrice, cost, weight};
-            items.put(item, itemInfo);
-            itemNames.put(item.getName(), item);
-            this.weight += weight;
-            this.cost += cost;
+        try {
+            if (items.containsKey(item)){
+                throw new BaseException("ERROR:item_already_ordered");
+            } else {
+                int cost = quantity*unitPrice;
+                int weight = quantity*item.getWeight();
+                int[] itemInfo = {quantity, unitPrice, cost, weight};
+                items.put(item, itemInfo);
+                itemNames.put(item.getName(), item);
+                this.weight += weight;
+                this.cost += cost;
+            }
+        } catch (BaseException e){
+            e.printMessage();
         }
     }
 

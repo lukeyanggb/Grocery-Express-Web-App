@@ -2,9 +2,6 @@ package edu.gatech.cs6310;
 
 public class Customer extends User {
     private String account;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
     private int rating;
     private int credits;
     private int outstandingOrders=0;
@@ -13,19 +10,20 @@ public class Customer extends User {
                  int credits) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.rating = rating;
         this.credits = credits;
     }
 
     // check the customer has enough remaining credits to afford the new item;
     public boolean hasCredits(int cost){
-        if ((this.credits-this.outstandingOrders) >= cost) {
-            return true;
-        } else {
-            System.out.println("ERROR:customer_cant_afford_new_item");
+        try {
+            if ((this.credits-this.outstandingOrders) >= cost) {
+                return true;
+            } else {
+                throw new BaseException("ERROR:customer_cant_afford_new_item");
+            }
+        } catch (BaseException e) {
+            e.printMessage();
             return false;
         }
     }

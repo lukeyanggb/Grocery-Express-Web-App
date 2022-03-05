@@ -15,11 +15,15 @@ public class Store {
     }
 
     public void addItem(String name, Item item){
-        if (items.containsKey(name)){
-            System.out.println("ERROR:item_identifier_already_exists");
-        } else {
-            items.put(name, item);
-            System.out.println("OK:change_completed");
+        try {
+            if (items.containsKey(name)){
+                throw new BaseException("ERROR:item_identifier_already_exists");
+            } else {
+                items.put(name, item);
+                System.out.println("OK:change_completed");
+            }
+        } catch (BaseException e){
+            e.printMessage();
         }
     }
 
@@ -32,11 +36,15 @@ public class Store {
     }
 
     public void addDrone(String id, Drone drone){
-        if (drones.containsKey(id)){
-            System.out.println("ERROR:drone_identifier_already_exists");
-        } else {
-            drones.put(id, drone);
-            System.out.println("OK:change_completed");
+        try {
+            if (drones.containsKey(id)){
+                throw new BaseException("ERROR:drone_identifier_already_exists");
+            } else {
+                drones.put(id, drone);
+                System.out.println("OK:change_completed");
+            }
+        } catch (BaseException e) {
+            e.printMessage();
         }
     }
 
@@ -60,13 +68,17 @@ public class Store {
     }
 
     public void flyDrone(String id, Pilot pilot){
-        if (drones.containsKey(id)){
-            Drone drone = drones.get(id);
-            drone.assign(pilot);
-            pilot.assign(drone);
-            System.out.println("OK:change_completed");
-        } else {
-            System.out.println("ERROR:drone_identifier_does_not_exist");
+        try {
+            if (drones.containsKey(id)){
+                Drone drone = drones.get(id);
+                drone.assign(pilot);
+                pilot.assign(drone);
+                System.out.println("OK:change_completed");
+            } else {
+                throw new BaseException("ERROR:drone_identifier_does_not_exist");
+            }
+        } catch (BaseException e) {
+            e.printMessage();
         }
     }
 
@@ -79,49 +91,57 @@ public class Store {
     }
 
     public void purchaseOrder(String id){
-        if (orders.containsKey(id)) {
-            Order order = orders.get(id);
-            Drone drone = order.getDesignatedDrone();
-            Pilot pilot = drone.getControlledBy();
-            Customer customer = order.getRequestedBy();
-            if (pilot != null && drone.getTripsBeforeRefueling()>=1){
-                // the cost of the order must be deducted from the customer’s credits;
-                int cost = order.getCost();
-                customer.deductCredits(cost);
-                // the cost of the order must be added to the store’s revenue;
-                this.revenue += cost;
-                // the number of remaining deliveries (i.e., fuel) for the drone must be reduced by one;
-                drone.reduceFuel();
-                drone.removeOrder(order);
-                // the pilot’s experience (i.e., number of successful deliveries) must be increased by one;
-                pilot.addExperience();
-                // the order must otherwise be removed from the system.
-                orders.remove(id);
-                System.out.println("OK:change_completed");
-            } else if (pilot == null){
-                System.out.println("ERROR:drone_needs_pilot");
+        try {
+            if (orders.containsKey(id)) {
+                Order order = orders.get(id);
+                Drone drone = order.getDesignatedDrone();
+                Pilot pilot = drone.getControlledBy();
+                Customer customer = order.getRequestedBy();
+                if (pilot != null && drone.getTripsBeforeRefueling()>=1){
+                    // the cost of the order must be deducted from the customer’s credits;
+                    int cost = order.getCost();
+                    customer.deductCredits(cost);
+                    // the cost of the order must be added to the store’s revenue;
+                    this.revenue += cost;
+                    // the number of remaining deliveries (i.e., fuel) for the drone must be reduced by one;
+                    drone.reduceFuel();
+                    drone.removeOrder(order);
+                    // the pilot’s experience (i.e., number of successful deliveries) must be increased by one;
+                    pilot.addExperience();
+                    // the order must otherwise be removed from the system.
+                    orders.remove(id);
+                    System.out.println("OK:change_completed");
+                } else if (pilot == null){
+                    throw new BaseException("ERROR:drone_needs_pilot");
+                } else {
+                    throw new BaseException("ERROR:drone_needs_fuel");
+                }
             } else {
-                System.out.println("ERROR:drone_needs_fuel");
+                throw new BaseException("ERROR:order_identifier_does_not_exist");
             }
-        } else {
-            System.out.println("ERROR:order_identifier_does_not_exist");
+        } catch (BaseException e){
+            e.printMessage();
         }
     }
 
     public void cancelOrder(String id){
-        if (orders.containsKey(id)) {
-            Order order = orders.get(id);
-            Customer customer = order.getRequestedBy();
-            Drone drone = order.getDesignatedDrone();
-            // release pending cost to credits
-            customer.addOutstandingOrders(-order.getCost());
-            // remove from drone's orders list
-            drone.removeOrder(order);
-            // remove from orders list
-            orders.remove(id);
-            System.out.println("OK:change_completed");
-        } else {
-            System.out.println("ERROR:order_identifier_does_not_exist");
+        try {
+            if (orders.containsKey(id)) {
+                Order order = orders.get(id);
+                Customer customer = order.getRequestedBy();
+                Drone drone = order.getDesignatedDrone();
+                // release pending cost to credits
+                customer.addOutstandingOrders(-order.getCost());
+                // remove from drone's orders list
+                drone.removeOrder(order);
+                // remove from orders list
+                orders.remove(id);
+                System.out.println("OK:change_completed");
+            } else {
+                throw new BaseException("ERROR:order_identifier_does_not_exist");
+            }
+        } catch (BaseException e) {
+            e.printMessage();
         }
     }
     public void displayOrders(){
@@ -134,27 +154,31 @@ public class Store {
     }
 
     public void requestItem(String orderID, String itemName, int quantity, int unitPrice){
-        if (!orders.containsKey(orderID)){
-            System.out.println("ERROR:order_identifier_does_not_exist");
-        } else if (!items.containsKey(itemName)) {
-            System.out.println("ERROR:item_identifier_does_not_exist");
-        } else {
-            Order order = orders.get(orderID);
-            Drone drone = order.getDesignatedDrone();
-            Customer customer = order.getRequestedBy();
-            Item item = items.get(itemName);
-            int cost = quantity*unitPrice;
-            int weight = item.getWeight()*quantity;
-            // item already ordered
-            if (order.hasItem(itemName)){
-                System.out.println("ERROR:item_already_ordered");
-                // check the customer has enough remaining credits to afford the new item;
-            } else if (customer.hasCredits(cost) && drone.checkCap(weight)) {
-                customer.addOutstandingOrders(cost);
-                drone.updateLoad(weight);
-                order.requestItem(item, quantity, unitPrice);
-                System.out.println("OK:change_completed");
+        try {
+            if (!orders.containsKey(orderID)){
+                throw new BaseException("ERROR:order_identifier_does_not_exist");
+            } else if (!items.containsKey(itemName)) {
+                throw new BaseException("ERROR:item_identifier_does_not_exist");
+            } else {
+                Order order = orders.get(orderID);
+                Drone drone = order.getDesignatedDrone();
+                Customer customer = order.getRequestedBy();
+                Item item = items.get(itemName);
+                int cost = quantity*unitPrice;
+                int weight = item.getWeight()*quantity;
+                // item already ordered
+                if (order.hasItem(itemName)){
+                    throw new BaseException("ERROR:item_already_ordered");
+                    // check the customer has enough remaining credits to afford the new item;
+                } else if (customer.hasCredits(cost) && drone.checkCap(weight)) {
+                    customer.addOutstandingOrders(cost);
+                    drone.updateLoad(weight);
+                    order.requestItem(item, quantity, unitPrice);
+                    System.out.println("OK:change_completed");
+                }
             }
+        } catch (BaseException e) {
+            e.printMessage();
         }
     }
     public boolean hasOrder(String id) {

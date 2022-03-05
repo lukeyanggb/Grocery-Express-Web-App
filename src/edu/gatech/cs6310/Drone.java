@@ -37,11 +37,15 @@ public class Drone {
 
     public boolean checkCap(int weight){
         // check drone has enough remaining capacity to carry the new item as part of its payload.
-        if (weight > (this.capacity-this.currentLoad)) {
-            System.out.println("ERROR:drone_cant_carry_new_item");
-            return false;
+        try {
+            if (weight > (this.capacity-this.currentLoad)) {
+                throw new BaseException("ERROR:drone_cant_carry_new_item");
         } else {
             return true;
+        }
+        } catch (BaseException e) {
+            e.printMessage();
+            return false;
         }
     }
 

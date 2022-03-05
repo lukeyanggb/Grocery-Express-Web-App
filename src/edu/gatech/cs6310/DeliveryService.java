@@ -26,7 +26,7 @@ public class DeliveryService {
 
                 if (tokens[0].equals("make_store")) {
                     if (storeNames.contains(tokens[1])){
-                        System.out.println("ERROR:store_identifier_already_exists");
+                        throw new BaseException("ERROR:store_identifier_already_exists");
                     } else {
                         Store store = new Store(tokens[1], Integer.parseInt(tokens[2]));
                         // add to hashset and treemap;
@@ -45,7 +45,7 @@ public class DeliveryService {
 
                 } else if (tokens[0].equals("sell_item")) {
                     if (!storeNames.contains(tokens[1])){
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     } else {
                         Store store = stores.get(tokens[1]);
                         // String name, int weight, String store
@@ -60,15 +60,15 @@ public class DeliveryService {
                         store.displayItems();
                         System.out.println("OK:display_completed");
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
 
                     // The make_pilot command creates a pilot who could fly a drone later to support grocery deliveries.
                 } else if (tokens[0].equals("make_pilot")) {
                     if (pilotAccounts.contains(tokens[1])){
-                        System.out.println("ERROR:pilot_identifier_already_exists");
+                        throw new BaseException("ERROR:pilot_identifier_already_exists");
                     } else if (licenceIDs.contains(tokens[6])){
-                        System.out.println("ERROR:pilot_license_already_exists");
+                        throw new BaseException("ERROR:pilot_license_already_exists");
                     } else {
                         Pilot pilot = new Pilot(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5],
                                 tokens[6], Integer.parseInt(tokens[7]));
@@ -97,7 +97,7 @@ public class DeliveryService {
                                 Integer.parseInt(tokens[4]));
                         store.addDrone(drone.getId(), drone);
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // displays the information about all the drones that can be used to
                     // deliver grocery orders for a specific store.
@@ -106,7 +106,7 @@ public class DeliveryService {
                         Store store = stores.get(tokens[1]);
                         store.displayDrones();
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // assign the given pilot to take control of the given drone
                 } else if (tokens[0].equals("fly_drone")) {
@@ -116,16 +116,16 @@ public class DeliveryService {
                             Pilot pilot = pilots.get(tokens[3]);
                             store.flyDrone(tokens[2], pilot);
                         } else {
-                            System.out.println("ERROR:pilot_identifier_does_not_exist");
+                            throw new BaseException("ERROR:pilot_identifier_does_not_exist");
                         }
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // create a customer who can start orders, request items and
                     // eventually purchase (or cancel) those orders
                 } else if (tokens[0].equals("make_customer")) {
                     if (customerAccounts.contains(tokens[1])){
-                        System.out.println("ERROR:customer_identifier_already_exists");
+                        throw new BaseException("ERROR:customer_identifier_already_exists");
                     } else {
                         Customer customer = new Customer(tokens[1], tokens[2], tokens[3], tokens[4],
                                 Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
@@ -148,18 +148,18 @@ public class DeliveryService {
                     if (storeNames.contains(tokens[1])){
                         Store store = stores.get(tokens[1]);
                         if (store.hasOrder(tokens[2])){
-                            System.out.println("ERROR:order_identifier_already_exists");
+                            throw new BaseException("ERROR:order_identifier_already_exists");
                         } else if (!store.hasDrone(tokens[3])){
-                            System.out.println("ERROR:drone_identifier_does_not_exist");
+                            throw new BaseException("ERROR:drone_identifier_does_not_exist");
                         } else if (!customerAccounts.contains(tokens[4])) {
-                            System.out.println("ERROR:customer_identifier_does_not_exist");
+                            throw new BaseException("ERROR:customer_identifier_does_not_exist");
                         } else {
                             Customer customer = customers.get(tokens[4]);
                             // String id, String droneID, Customer customer
                             store.createOrder(tokens[2], tokens[3], customer);
                         }
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // display information about all the orders at a given store.
                 } else if (tokens[0].equals("display_orders")) {
@@ -167,7 +167,7 @@ public class DeliveryService {
                         Store store = stores.get(tokens[1]);
                         store.displayOrders();
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // add an item to the designated order
                 } else if (tokens[0].equals("request_item")) {
@@ -178,7 +178,7 @@ public class DeliveryService {
                         store.requestItem(tokens[2], tokens[3], Integer.parseInt(tokens[4]),
                                 Integer.parseInt(tokens[5]));
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     //complete the purchase of the order and the delivery of the
                     //groceries to the appropriate customer
@@ -187,7 +187,7 @@ public class DeliveryService {
                         Store store = stores.get(tokens[1]);
                         store.purchaseOrder(tokens[2]);
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
                     // remove the order from the system without otherwise changing the system’ state
                 } else if (tokens[0].equals("cancel_order")) {
@@ -195,7 +195,7 @@ public class DeliveryService {
                         Store store = stores.get(tokens[1]);
                         store.cancelOrder(tokens[2]);
                     } else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        throw new BaseException("ERROR:store_identifier_does_not_exist");
                     }
 
                 } else if (tokens[0].equals("stop")) {
@@ -203,9 +203,10 @@ public class DeliveryService {
                     break;
 
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println();
+            } catch (BaseException e) {
+                e.printMessage();
+//                e.printStackTrace();
+//                System.out.println();
             }
         }
         System.out.println("simulation terminated");

@@ -2,9 +2,6 @@ package edu.gatech.cs6310;
 
 public class Pilot extends User {
     private String account;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
     private String taxID;
     private String licenseID;
     private int experience;
