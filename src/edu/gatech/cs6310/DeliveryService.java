@@ -205,8 +205,6 @@ public class DeliveryService {
                 }
             } catch (BaseException e) {
                 e.printMessage();
-//                e.printStackTrace();
-//                System.out.println();
             }
         }
         System.out.println("simulation terminated");
