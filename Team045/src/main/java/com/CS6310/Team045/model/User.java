@@ -15,6 +15,8 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    public User(){};
+
 
     public User(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;

@@ -2,6 +2,7 @@ package com.CS6310.Team045.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +17,10 @@ public class Pilot extends User{
     @Column(name = "experience")
     private int experience;
     @Column(name = "control")
+    @OneToOne(mappedBy = "Drone")
     private Drone control;
+
+    public Pilot(){}
 
     public Pilot(String account, String firstName, String lastName, String phoneNumber, String taxID,
                  String licenseID, int experience) {
@@ -25,32 +29,7 @@ public class Pilot extends User{
         this.taxID = taxID;
         this.licenseID = licenseID;
         this.experience = experience;
+        control = new Drone();
     }
 
-    public void assign(Drone drone){
-        if (this.control != null) {
-            this.control.removePilot();
-        }
-        this.control = drone;
-    }
-
-    public void remove(){
-        this.control = null;
-    }
-
-    public void addExperience(){
-        this.experience += 1;
-    }
-
-    public String getTaxID() {
-        return taxID;
-    }
-
-    public String getLicenseID() {
-        return licenseID;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
 }

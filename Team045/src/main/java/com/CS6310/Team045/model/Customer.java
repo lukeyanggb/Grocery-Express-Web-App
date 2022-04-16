@@ -1,10 +1,10 @@
 package com.CS6310.Team045.model;
 
 import com.CS6310.Team045.exception.BaseException;
+import org.hibernate.transform.ToListResultTransformer;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -17,15 +17,19 @@ public class Customer extends User{
     private int credits;
     @Column(name = "outstanding_orders")
     private int outstandingOrders=0;
-    private String password;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+
+    public Customer(){}
+
 
     public Customer(String account, String firstName, String lastName, String phoneNumber, int rating,
-                    int credits, String password) {
+                    int credits) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
         this.rating = rating;
         this.credits = credits;
-        this.password = password;
     }
 
     // check the customer has enough remaining credits to afford the new item;

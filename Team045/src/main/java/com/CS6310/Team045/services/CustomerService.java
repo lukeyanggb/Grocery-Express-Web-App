@@ -1,32 +1,40 @@
 package com.CS6310.Team045.services;
 
-import com.CS6310.Team045.exception.BaseException;
 import com.CS6310.Team045.model.Customer;
-import com.CS6310.Team045.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import com.CS6310.Team045.model.ItemLine;
+import com.CS6310.Team045.model.Order;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class CustomerService {
-    @Autowired
-    private CustomerRepository customerRepository;
+public interface CustomerService {
+    //display all customer
+    public List<Customer> getCustomers();
 
-    //@Autowired
-    //private BCryptPasswordEncoder passwordEncoder;
+    //get a customer by id
+    public Optional<Customer> findById(long id);
 
-    //return list of employees
-    public List<Customer> getCustomers(){
-        return customerRepository.findAll();
-    }
+    // create a customer
+    public void make_customer(Customer customer);
 
-    //get by id
-    public Optional<Customer> findById(long id){
-        return customerRepository.findById(id);
-    }
 
+
+    //create an order
+    public void start_order(Order order);
+
+    //show all orders at a given store
+    public List<Order> display_orders(String store);
+
+    //add an item to the desigen order
+    public void request_item(String storeName, String orderId, String item, int quantity, int unitPirce);
+
+    // soho all items under each order
+    //public Map<String, ArrayList<>> display_orders(String storeName) {
+    //}
+
+
+    //purchase order
+    //cancel order
+    public void cancel_order(String store, String orderId);
 
 }
