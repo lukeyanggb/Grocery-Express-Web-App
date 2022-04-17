@@ -23,7 +23,6 @@ public class Drone {
     @OneToOne
     @JoinColumn(name = "Pilot")
     private Pilot controlledBy;
-
     @OneToMany
     private List<Order> orders;
 

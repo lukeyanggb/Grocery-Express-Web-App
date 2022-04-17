@@ -1,9 +1,6 @@
 package com.CS6310.Team045.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pilots")
@@ -16,8 +13,9 @@ public class Pilot extends User{
     private String licenseID;
     @Column(name = "experience")
     private int experience;
-    @Column(name = "control")
-    @OneToOne(mappedBy = "Drone")
+
+    @OneToOne
+    @JoinColumn(name = "control")
     private Drone control;
 
     public Pilot(){}

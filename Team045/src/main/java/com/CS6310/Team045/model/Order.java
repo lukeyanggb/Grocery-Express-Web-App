@@ -10,9 +10,8 @@ public class Order {
     @Id
     @Column(name = "id")
     private String id;
-
-    @Column(name = "designated_drone")
     @ManyToOne
+    @JoinColumn(name = "designated_drone")
     private Drone designatedDrone;
     @ManyToOne
     @JoinColumn (name = "customer_id")
@@ -21,7 +20,7 @@ public class Order {
     @JoinColumn( name = "store_name")
     private Store store;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany
     private List<ItemLine> items;
 
     // item, {quantity, unitPrice, totalCost, totalWeight}

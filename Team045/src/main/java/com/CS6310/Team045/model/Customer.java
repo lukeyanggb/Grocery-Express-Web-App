@@ -18,7 +18,7 @@ public class Customer extends User{
     @Column(name = "outstanding_orders")
     private int outstandingOrders=0;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Order> orders;
 
     public Customer(){}

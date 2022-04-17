@@ -20,8 +20,9 @@ public class Store {
     private List<Item> items;
     @OneToMany
     private List<Drone> drones;
-    @ManyToOne
-    private Order order;
+    @OneToMany
+    @JoinColumn(name = "orders")
+    private List<Order> orders;
 
     public Store(){}
 
