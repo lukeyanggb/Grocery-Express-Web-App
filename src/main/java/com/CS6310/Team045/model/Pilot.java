@@ -1,10 +1,18 @@
 package com.CS6310.Team045.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "pilots")
 public class Pilot extends User{
+
     @Column(name = "account")
     private String account;
     @Column(name = "tax_id")
@@ -18,7 +26,7 @@ public class Pilot extends User{
     @JoinColumn(name = "control")
     private Drone control;
 
-    public Pilot(){}
+    //public Pilot(){}
 
     public Pilot(String account, String firstName, String lastName, String phoneNumber, String taxID,
                  String licenseID, int experience) {
@@ -28,6 +36,9 @@ public class Pilot extends User{
         this.licenseID = licenseID;
         this.experience = experience;
         control = new Drone();
+    }
+    public void addExp(){
+        this.experience++;
     }
 
 }

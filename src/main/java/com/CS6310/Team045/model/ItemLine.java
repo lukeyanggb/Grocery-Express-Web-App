@@ -1,21 +1,41 @@
 package com.CS6310.Team045.model;
 
+import lombok.*;
+
 import javax.persistence.*;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "itemLine")
-public class ItemLine {
+public class ItemLine{
     @Id
-    private String item;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @ManyToOne
+    private Item item;
     private int unitPrice;
     private int quantity;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public ItemLine(String item, int unitPrice, int quantity, Order order) {
+
+    public ItemLine(Item item,int unitPrice,int quantity,Order order){
         this.item = item;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
-        this.order = order;
+        this.order =order;
     }
+
+
+    public String itemLineToString(){
+        int weight = quantity*item.getWeight();
+        String res = "item_name:" + item.getName()+",total_quantity:"+quantity+",total_cost:"+ quantity*unitPrice
+                +",total_weight:"+weight;
+        return res;
+    }
+
 }
