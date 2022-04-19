@@ -1,7 +1,14 @@
 package com.CS6310.Team045.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -15,7 +22,7 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public User(){};
+    //public User(){};
 
 
     public User(String firstName, String lastName, String phoneNumber) {
@@ -24,16 +31,5 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
 
 }

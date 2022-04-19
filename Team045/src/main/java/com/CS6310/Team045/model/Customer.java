@@ -1,14 +1,22 @@
 package com.CS6310.Team045.model;
 
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import lombok.*;
 import org.hibernate.transform.ToListResultTransformer;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "customers")
 public class Customer extends User{
+
     @Column(name = "account")
     private String account;
     @Column(name = "rating")
@@ -21,7 +29,7 @@ public class Customer extends User{
     @OneToMany
     private List<Order> orders;
 
-    public Customer(){}
+    //public Customer(){}
 
 
     public Customer(String account, String firstName, String lastName, String phoneNumber, int rating,
@@ -49,6 +57,7 @@ public class Customer extends User{
         this.outstandingOrders += cost;
     }
 
+
     public void deductCredits(int cost){
         this.credits-=cost;
     }
@@ -60,5 +69,17 @@ public class Customer extends User{
     public int getCredits() {
         return credits;
     }
+    public void pay(int cost){
+        this.outstandingOrders -= cost;
+        this.credits -=cost;
+    }
+    /*
+    * <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+    *
+    *
+    * */
 
 }
