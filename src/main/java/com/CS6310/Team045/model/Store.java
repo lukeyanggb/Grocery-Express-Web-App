@@ -16,9 +16,7 @@ import java.util.TreeMap;
 @Table(name = "stores")
 public class Store {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
     @Column(name = "revenue")
     private int revenue;

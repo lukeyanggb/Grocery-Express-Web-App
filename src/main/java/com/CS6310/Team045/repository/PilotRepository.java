@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface PilotRepository extends JpaRepository<Pilot,Long> {
     Optional<Pilot> findPilotByAccount(String account);
-    //Optional<Pilot> findPilotByLicenseID(String id);
+    Optional<Pilot> findPilotByLicenseID(String id);
 
 }

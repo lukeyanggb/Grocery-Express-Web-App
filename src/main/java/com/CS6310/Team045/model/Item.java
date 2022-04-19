@@ -21,8 +21,8 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "store_name")
     private Store store;
-    @OneToMany
-    private List<ItemLine> lines;
+    //@OneToMany
+    //private List<ItemLine> lines;
 
 
    /*

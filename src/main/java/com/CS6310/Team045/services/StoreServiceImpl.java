@@ -49,7 +49,7 @@ public class StoreServiceImpl {
     public List<Store> getAllStores(){
         return storeRepository.findAll();
     }
-    /*
+
 
     //add item to the store catalog
     public Item addItem(Item item){
@@ -120,7 +120,7 @@ public class StoreServiceImpl {
         return droneRepository.findDroneByStore(store);
     }
 
-
+/*
     //fly a drone
     public void flyDrone(Drone drone, Pilot pilot) {
         //drone.assign(pilot);

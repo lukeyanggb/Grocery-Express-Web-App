@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ItemLineRepository extends JpaRepository<ItemLine,Long> {
-    //Optional<ItemLine> findItemLineByOrderAndAnd(String itemLine, String order);
+    Optional<ItemLine> findItemLineByOrderAndOrder(String itemLine, String order);
 }

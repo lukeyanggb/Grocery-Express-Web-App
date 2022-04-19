@@ -34,10 +34,11 @@ public class Order {
     private int weight = 0;
     private int cost = 0;
     //public Order(){}
-    public Order(String id, Drone designatedDrone, Customer requestedBy) {
+    public Order(String id, Drone designatedDrone, Customer requestedBy, Store store) {
         this.id = id;
         this.designatedDrone = designatedDrone;
         this.requestedBy = requestedBy;
+        this.store =store;
     }
 
     public int orderCost(){
@@ -47,13 +48,14 @@ public class Order {
         }
         return res;
     }
+    /*
     public int orderWeight(){
         int res =0;
         for(ItemLine line : this.items){
             res += line.getQuantity()*line.getItem().getWeight();
         }
         return res;
-    }
+    }*/
 
 
 
