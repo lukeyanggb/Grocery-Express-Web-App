@@ -41,4 +41,14 @@ public class Pilot extends User{
         this.experience++;
     }
 
+    public void assign(Drone drone){
+        if (this.control != null) {
+            this.control.removePilot();
+        }
+        this.control = drone;
+    }
+    public void remove(){
+        this.control = null;
+    }
+
 }

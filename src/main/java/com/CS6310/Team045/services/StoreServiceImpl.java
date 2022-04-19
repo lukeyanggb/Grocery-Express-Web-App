@@ -36,7 +36,7 @@ public class StoreServiceImpl {
         String name = store.getName();
         Optional<Store> opt = findStore(name);
         if(opt.isPresent()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         storeRepository.save(store);
     }
@@ -58,10 +58,10 @@ public class StoreServiceImpl {
         Optional<Store> opt = findStore(storeName);
         Optional<Item> optItem = Optional.of(itemRepository.getById(itemName));
         if(opt.isEmpty()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         if(optItem.isPresent()){
-           //throw new IllegalArgumentException();
+           throw new IllegalArgumentException();
         }
         return itemRepository.save(item);}
 
@@ -83,10 +83,10 @@ public class StoreServiceImpl {
         Optional<Pilot> accoutOpt = pilotRepository.findPilotByAccount(account);
         Optional<Pilot> liceseIdOpt = pilotRepository.findPilotByLicenseID(licenseId);
         if(accoutOpt.isPresent()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         if(liceseIdOpt.isPresent()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
 
         pilotRepository.save(pilot);
@@ -103,10 +103,10 @@ public class StoreServiceImpl {
         Store store = drone.getStore();
         String droneID = drone.getId();
         if(findStore(store.getName()).isEmpty()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         if(droneRepository.findDronesByStoreAndAndId(store.getName(),droneID).isPresent()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         droneRepository.save(drone);
     }
@@ -115,17 +115,17 @@ public class StoreServiceImpl {
     public List<Drone> display_drones(String store){
         Optional<Store> opt = findStore(store);
         if(opt.isEmpty()){
-            //throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         return droneRepository.findDroneByStore(store);
     }
 
-/*
+
     //fly a drone
     public void flyDrone(Drone drone, Pilot pilot) {
-        //drone.assign(pilot);
-        //pilot.assign(drone);
+        drone.assign(pilot);
+        pilot.assign(drone);
     }
-    */
+
 
 }

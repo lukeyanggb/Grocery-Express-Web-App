@@ -40,6 +40,15 @@ public class Drone {
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
     }
+    public void assign(Pilot pilot){
+        if (this.controlledBy != null){
+            this.controlledBy.remove();
+        }
+        this.controlledBy = pilot;
+    }
+    public void removePilot(){
+        this.controlledBy = null;
+    }
 
     public void addCurrentLoad(int load){
         currentLoad += load;
