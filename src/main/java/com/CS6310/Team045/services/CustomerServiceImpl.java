@@ -113,41 +113,41 @@ public class CustomerServiceImpl {
 
     //add an item to the desigen order
     public void request_item(String storeName, String orderId, String item, int quantity, int unitPirce){
-        Optional<Order> order= orderRepository.findOrderByStore_nameAndId(storeName,orderId);
-        if(storeRepository.findStoreByName(storeName).isPresent()){
-            if(order.isPresent()){
-                Optional<Item> itemopt = itemRepository.findByStore_nameAndName(storeName, item);
-                if(itemopt.isPresent()){
-                    if(itemLineRepository.findItemLineByOrderAndOrder(item,orderId).isEmpty()){
-                        //check drone carry new item
-                        int lineweight = quantity*itemopt.get().getWeight();
-                        int linecost = unitPirce* quantity;
-                        Drone drone = order.get().getDesignatedDrone();
-                        Customer customer = order.get().getRequestedBy();
-                        if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
-                            if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
-
-                                ItemLine itemLine = new ItemLine(item, unitPirce,quantity,order.get());
-                                customer.addOutstandingOrders(linecost);
-                                drone.addCurrentLoad(lineweight);
-                                customerRepository.save(customer);
-                                droneRepository.save(drone);
-                                itemLineRepository.save(itemLine);
-                            }
-                            throw new IllegalArgumentException();
-                        }
-                        throw new IllegalArgumentException();
-
-                    }
-                    throw new IllegalArgumentException();
-
-                }
-                throw new IllegalArgumentException();
-            }
-            throw new IllegalArgumentException();
-        }
-        throw new IllegalArgumentException();
-
+//        Optional<Order> order= orderRepository.findOrderByStore_nameAndId(storeName,orderId);
+//        if(storeRepository.findStoreByName(storeName).isPresent()){
+//            if(order.isPresent()){
+//                Optional<Item> itemopt = itemRepository.findByStore_nameAndName(storeName, item);
+//                if(itemopt.isPresent()){
+//                    if(itemLineRepository.findItemLineByOrderAndOrder(item,orderId).isEmpty()){
+//                        //check drone carry new item
+//                        int lineweight = quantity*itemopt.get().getWeight();
+//                        int linecost = unitPirce* quantity;
+//                        Drone drone = order.get().getDesignatedDrone();
+//                        Customer customer = order.get().getRequestedBy();
+//                        if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
+//                            if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
+//
+//                                ItemLine itemLine = new ItemLine(item, unitPirce,quantity,order.get());
+//                                customer.addOutstandingOrders(linecost);
+//                                drone.addCurrentLoad(lineweight);
+//                                customerRepository.save(customer);
+//                                droneRepository.save(drone);
+//                                itemLineRepository.save(itemLine);
+//                            }
+//                            throw new IllegalArgumentException();
+//                        }
+//                        throw new IllegalArgumentException();
+//
+//                    }
+//                    throw new IllegalArgumentException();
+//
+//                }
+//                throw new IllegalArgumentException();
+//            }
+//            throw new IllegalArgumentException();
+//        }
+//        throw new IllegalArgumentException();
+//
 
 
 
@@ -160,44 +160,44 @@ public class CustomerServiceImpl {
 
     //purchase order
     public void purchase(String store, String order){
-        Optional<Store> storeopt = storeRepository.findById(store);
-        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
-        if(storeopt.isPresent()){
-            if(orderopt.isPresent()){
-                Store s = storeopt.get();
-                Customer customer = orderopt.get().getRequestedBy();
-                Drone drone = orderopt.get().getDesignatedDrone();
-                Pilot pilot = drone.getControlledBy();
-                int cost = orderopt.get().orderCost();
-                int weight = OrderWeight(orderopt.get());
-                customer.pay(cost);
-                drone.deductCurrentLoad(weight);
-                s.addRevenue(cost);
-                drone.deductFuel();
-                pilot.addExp();
-                customerRepository.save(customer);
-                droneRepository.save(drone);
-                storeRepository.save(s);
-                pilotRepository.save(pilot);
-
-
-            }
-            throw new IllegalArgumentException();
-        }
-        throw new IllegalArgumentException();
+//        Optional<Store> storeopt = storeRepository.findById(store);
+//        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
+//        if(storeopt.isPresent()){
+//            if(orderopt.isPresent()){
+//                Store s = storeopt.get();
+//                Customer customer = orderopt.get().getRequestedBy();
+//                Drone drone = orderopt.get().getDesignatedDrone();
+//                Pilot pilot = drone.getControlledBy();
+//                int cost = orderopt.get().orderCost();
+//                int weight = OrderWeight(orderopt.get());
+//                customer.pay(cost);
+//                drone.deductCurrentLoad(weight);
+//                s.addRevenue(cost);
+//                drone.deductFuel();
+//                pilot.addExp();
+//                customerRepository.save(customer);
+//                droneRepository.save(drone);
+//                storeRepository.save(s);
+//                pilotRepository.save(pilot);
+//
+//
+//            }
+//            throw new IllegalArgumentException();
+//        }
+//        throw new IllegalArgumentException();
     }
 
 
     //cancel order
     public void cancel_order(String store, String orderId){
-        Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
-        if(storeRepository.findById(store).isPresent()){
-            if(order.isPresent()){
-                orderRepository.delete(order.get());
-            }
-            throw new IllegalArgumentException();
-        }
-        throw new IllegalArgumentException();
+//        Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
+//        if(storeRepository.findById(store).isPresent()){
+//            if(order.isPresent()){
+//                orderRepository.delete(order.get());
+//            }
+//            throw new IllegalArgumentException();
+//        }
+//        throw new IllegalArgumentException();
 
     }
 
