@@ -23,9 +23,8 @@ public class Order {
     @JoinColumn (name = "customer_id")
     private Customer requestedBy;
     @ManyToOne
-    @JoinColumn( name = "store_name")
+    @JoinColumn( name = "store")
     private Store store;
-
     @OneToMany
     private List<ItemLine> items;
 

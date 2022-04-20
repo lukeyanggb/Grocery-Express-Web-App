@@ -19,15 +19,18 @@ public class Drone {
     @Column(name = "id")
     private String id;
     @Column(name = "capacity")
-    private int capacity;
+    private Integer capacity;
     @Column(name = "tripsbefore_refueling")
-    private int tripsBeforeRefueling;
+    private Integer tripsBeforeRefueling;
     @Column(name = "current_load")
-    private int currentLoad=0;
+    private Integer currentLoad=0;
     @ManyToOne
-    private Store store;
+    @JoinColumn(name = "store_name", insertable=false)
+    private Store store = null;
+    private String sname;
+
     @OneToOne
-    @JoinColumn(name = "Pilot")
+    @JoinColumn(name = "controlledBy_account")
     private Pilot controlledBy;
     @OneToMany
     private List<Order> orders;
@@ -35,7 +38,7 @@ public class Drone {
 
     //public Drone(){}
 
-    public Drone(String id, int capacity, int tripsBeforeRefueling) {
+    public Drone(String id, Integer capacity, Integer tripsBeforeRefueling) {
         this.id = id;
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
@@ -45,15 +48,16 @@ public class Drone {
             this.controlledBy.remove();
         }
         this.controlledBy = pilot;
+
     }
     public void removePilot(){
         this.controlledBy = null;
     }
 
-    public void addCurrentLoad(int load){
+    public void addCurrentLoad(Integer load){
         currentLoad += load;
     }
-    public void deductCurrentLoad(int load){
+    public void deductCurrentLoad(Integer load){
         currentLoad -= load;
     }
     public void deductFuel(){

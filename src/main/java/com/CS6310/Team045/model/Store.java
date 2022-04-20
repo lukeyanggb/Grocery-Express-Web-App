@@ -19,23 +19,25 @@ public class Store {
     @Column(name = "name", unique = true)
     private String name;
     @Column(name = "revenue")
-    private int revenue;
+    private Integer revenue;
 
     @OneToMany
     private List<Item> items;
     @OneToMany
     private List<Drone> drones;
     @OneToMany
-    @JoinColumn(name = "orders")
+    private List<Drone> pilots;
+    @OneToMany
+    @JoinColumn(name = "orders_id")
     private List<Order> orders;
 
     //public Store(){}
 
-    public Store(String name, int revenue){
+    public Store(String name, Integer revenue){
         this.name = name;
         this.revenue = revenue;
     }
-    public void addRevenue(int cost){
+    public void addRevenue(Integer cost){
         this.revenue += cost;
     }
 

@@ -20,20 +20,20 @@ public class Customer extends User{
     @Column(name = "account")
     private String account;
     @Column(name = "rating")
-    private int rating;
+    private Integer rating;
     @Column(name = "credits")
-    private int credits;
+    private Integer credits;
     @Column(name = "outstanding_orders")
-    private int outstandingOrders=0;
+    private Integer outstandingOrders=0;
 
     @OneToMany
     private List<Order> orders;
 
-    //public Customer(){}
+//    public Customer(){}
 
 
-    public Customer(String account, String firstName, String lastName, String phoneNumber, int rating,
-                    int credits) {
+    public Customer(String account, String firstName, String lastName, String phoneNumber, Integer rating,
+                    Integer credits) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
         this.rating = rating;
@@ -41,7 +41,7 @@ public class Customer extends User{
     }
 
     // check the customer has enough remaining credits to afford the new item;
-    public boolean hasCredits(int cost){
+    public boolean hasCredits(Integer cost){
         try {
             if ((this.credits-this.outstandingOrders) >= cost) {
                 return true;
@@ -53,23 +53,23 @@ public class Customer extends User{
             return false;
         }
     }
-    public void addOutstandingOrders(int cost){
+    public void addOutstandingOrders(Integer cost){
         this.outstandingOrders += cost;
     }
 
 
-    public void deductCredits(int cost){
+    public void deductCredits(Integer cost){
         this.credits-=cost;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public int getCredits() {
+    public Integer getCredits() {
         return credits;
     }
-    public void pay(int cost){
+    public void pay(Integer cost){
         this.outstandingOrders -= cost;
         this.credits -=cost;
     }

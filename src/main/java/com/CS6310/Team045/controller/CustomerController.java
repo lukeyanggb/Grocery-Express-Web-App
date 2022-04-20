@@ -10,6 +10,7 @@ import io.micrometer.core.ipc.http.HttpSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -24,36 +25,74 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create_customer")
-    public void make_customers(String account, String firstName, String lastName, String phoneNumber, int rating,
-                               int credits){
-        Customer customer = new Customer(account, firstName, lastName, phoneNumber, rating, credits);
-        customerService.make_customer(customer);
+    public void make_customers(@RequestBody Customer customer){
+        try{
+//        Customer customer = new Customer(account, firstName, lastName, phoneNumber, rating, credits);
+        customerService.make_customer(customer);}
+        catch (Exception e){
+            System.out.println(e.getMessage());
+//            System.out.println("Error:store_identifier_already_exists");
+        }
     }
 
-    @PostMapping(value = "/start_order")
-    public void startOrder(String store,String id, String designatedDrone, String requestedBy){
+    @RequestMapping(value = "/start_order")
+    public void startOrder(HttpServletRequest request) throws Exception {
+        //        http://localhost:8080/cs6300/team045/start_order?storeName=kroger&orderId=purchaseA&droneId=1&customer=aapple2
+        try {
+            String store = request.getParameter("storeName");
+            String id = request.getParameter("orderId");
+            String designatedDrone = request.getParameter("droneId");
+            String requestedBy = request.getParameter("customer");
 
-        customerService.start_order(store,id, designatedDrone, requestedBy);
+
+            customerService.start_order(store, id, designatedDrone, requestedBy);
+            System.out.println("OK, change_completed");
+
+        }
+    catch (Exception e){
+        System.out.println(e.getMessage());
+//            System.out.println("Error:store_identifier_already_exists");
+    }
     }
 
-    @GetMapping(value ="/orders")
-    public List<Order> display_orders(String store){
+    @RequestMapping(value ="/orders")
+    public List<Order> display_orders(HttpServletRequest request){
+        //        http://localhost:8080/cs6300/team045/start_order?storeName=kroger
+        String storeName = request.getParameter("storeName");
 
-        return customerService.display_orders(store);
+//        System.out.println(storeName);
+
+        try{
+            return customerService.display_orders(storeName);
+//            System.out.println("OK, change_completed");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+
     }
 
     @PostMapping(value = "/request_item")
-    public void requestItem(String storeName, String orderId, String item, int quantity, int unitPirce){
+    public void requestItem(HttpServletRequest request) throws Exception {
+        String storeName = request.getParameter("storeName");
+        String orderId = request.getParameter("orderId");
+        String item = request.getParameter("item");
+        Integer quantity = Integer.parseInt(request.getParameter("quantity"));
+        Integer unitPirce = Integer.parseInt(request.getParameter("unitPirce"));
         customerService.request_item(storeName,orderId,item,quantity,unitPirce);
     }
 
     @PostMapping(value = "/purchase_order")
-    public void purchaseOrder(String store,String order){
-        customerService.purchase(store,order);
+    public void purchaseOrder(HttpServletRequest request){
+        String storeName = request.getParameter("storeName");
+        String orderId = request.getParameter("orderId");
+        customerService.purchase(storeName,orderId);
     }
     @DeleteMapping(value = "/cancel_order")
-    public void cancelOrder(String store, String order){
-        customerService.cancel_order(store, order);
+    public void cancelOrder(HttpServletRequest request){
+        String storeName = request.getParameter("storeName");
+        String orderId = request.getParameter("orderId");
+        customerService.cancel_order(storeName, orderId);
     }
 
 

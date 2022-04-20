@@ -17,31 +17,23 @@ public class Item {
     @Column(name = "name")
     private String name;
     @Column(name = "weight")
-    private int weight;
+    private Integer weight;
     @ManyToOne
-    @JoinColumn(name = "store_name")
-    private Store store;
+    @JoinColumn(name = "store_name", insertable=false)
+    private Store store = null;
+
+    private String sname;
     //@OneToMany
     //private List<ItemLine> lines;
 
 
-   /*
-    public Item(String name, int weight, Store store){
-        this.name = name;
-        this.weight = weight;
-        this.store = store;
-    }
+//    public Item(String name, Integer weight, Store store){
+//        this.name = name;
+//        this.weight = weight;
+//        this.store = store;
+//    }
 
-    public Item(){}
-
-    public String getName() {
-        return name;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-    */
+//    public Item(){}
 
 
 }

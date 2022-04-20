@@ -20,16 +20,16 @@ public class Pilot extends User{
     @Column(name = "license_id")
     private String licenseID;
     @Column(name = "experience")
-    private int experience;
+    private Integer experience;
 
     @OneToOne
-    @JoinColumn(name = "control")
+    @JoinColumn(name = "control_id")
     private Drone control;
 
     //public Pilot(){}
 
     public Pilot(String account, String firstName, String lastName, String phoneNumber, String taxID,
-                 String licenseID, int experience) {
+                 String licenseID, Integer experience) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
         this.taxID = taxID;

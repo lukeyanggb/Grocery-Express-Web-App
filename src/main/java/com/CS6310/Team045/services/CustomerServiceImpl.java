@@ -25,7 +25,8 @@ public class CustomerServiceImpl {
     private StoreRepository storeRepository;
 
     @Autowired
-    private DroneRepository droneRespository;
+    private DroneRepository droneRepository;
+
 
     @Autowired
     private ItemRepository itemRepository;
@@ -54,50 +55,68 @@ public class CustomerServiceImpl {
         Optional<Customer> opt = customerRepository.findByAccount(customer.getAccount());
         if(opt.isPresent()){
             throw new IllegalArgumentException();
+        } else {
+            customerRepository.save(customer);
         }
-        customerRepository.save(customer);
     }
 
-
+    public Optional<Store> findStore(String store){
+        return storeRepository.findStoreByName(store);
+    }
 
     //create an order
-    public void start_order(String store, String orderId, String droneId, String customerAccount){
-       Optional<Store> storeopt = storeRepository.findStoreByName(store);
-        if(storeopt.isPresent()){
-            if(orderRepository.findOrderByStoreAndId(store,orderId).isEmpty()){
-                Optional<Drone> droneOptional = droneRespository.findDronesByStoreAndAndId(store,droneId);
-                if(droneOptional.isPresent()){
-                    Optional<Customer> customerOptional = customerRepository.findByAccount(customerAccount);
-                    if(customerOptional.isPresent()){
-                        Order order = new Order(orderId,droneOptional.get(), customerOptional.get(),storeopt.get());
-                        orderRepository.save(order);
-                    }
-                }
-                throw new IllegalArgumentException();
+    public void start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
 
-            }
-            throw new IllegalArgumentException();
+//        System.out.println(storeName);
+//        System.out.println(orderId);
+//        System.out.println(droneId);
+//        System.out.println(customerAccount);
+
+
+        Optional<Store> store = findStore(storeName);
+        if (store.isEmpty()) {
+            throw new Exception("ERROR:store_identifier_does_not_exist");
         }
-        throw  new IllegalArgumentException();
+
+        Optional<Order> orderOpt = orderRepository.findOrderByStore_nameAndId(storeName,orderId);
+        if (orderOpt.isPresent()) {
+            throw new Exception("ERROR:order_identifier_already_exists");
+        }
+
+        Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
+
+        if (optDrone.isEmpty()) {
+            throw new Exception("ERROR:drone_identifier_does_not_exist");
+        }
+
+        Optional<Customer> customerOptional = customerRepository.findByAccount(customerAccount);
+//        System.out.println(customerOptional);
+
+        if(customerOptional.isEmpty()){
+            throw new Exception("ERROR:customer_identifier_does_not_exist");
+        }
+
+        Order order = new Order(orderId,optDrone.get(), customerOptional.get(),store.get());
+        orderRepository.save(order);
 
     }
 
 
     //show all orders at a given store
-    public List<Order> display_orders(String store){
+    public List<Order> display_orders(String store) throws Exception {
         if(storeRepository.findStoreByName(store).isPresent()){
-            return orderRepository.findOrderByStore(store);
+            return orderRepository.findOrderByStore_name(store);
         }
-        throw new IllegalArgumentException();
+        throw new Exception("ERROR:store_identifier_does_not_exist");
 
     }
 
     //add an item to the desigen order
     public void request_item(String storeName, String orderId, String item, int quantity, int unitPirce){
-        Optional<Order> order= orderRepository.findOrderByStoreAndId(storeName,orderId);
+        Optional<Order> order= orderRepository.findOrderByStore_nameAndId(storeName,orderId);
         if(storeRepository.findStoreByName(storeName).isPresent()){
             if(order.isPresent()){
-                Optional<Item> itemopt = itemRepository.getItemByStoreAndName(storeName, item);
+                Optional<Item> itemopt = itemRepository.findByStore_nameAndName(storeName, item);
                 if(itemopt.isPresent()){
                     if(itemLineRepository.findItemLineByOrderAndOrder(item,orderId).isEmpty()){
                         //check drone carry new item
@@ -112,7 +131,7 @@ public class CustomerServiceImpl {
                                 customer.addOutstandingOrders(linecost);
                                 drone.addCurrentLoad(lineweight);
                                 customerRepository.save(customer);
-                                droneRespository.save(drone);
+                                droneRepository.save(drone);
                                 itemLineRepository.save(itemLine);
                             }
                             throw new IllegalArgumentException();
@@ -142,7 +161,7 @@ public class CustomerServiceImpl {
     //purchase order
     public void purchase(String store, String order){
         Optional<Store> storeopt = storeRepository.findById(store);
-        Optional<Order> orderopt = orderRepository.findOrderByStoreAndId(store,order);
+        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
         if(storeopt.isPresent()){
             if(orderopt.isPresent()){
                 Store s = storeopt.get();
@@ -157,7 +176,7 @@ public class CustomerServiceImpl {
                 drone.deductFuel();
                 pilot.addExp();
                 customerRepository.save(customer);
-                droneRespository.save(drone);
+                droneRepository.save(drone);
                 storeRepository.save(s);
                 pilotRepository.save(pilot);
 
@@ -171,7 +190,7 @@ public class CustomerServiceImpl {
 
     //cancel order
     public void cancel_order(String store, String orderId){
-        Optional<Order> order = orderRepository.findOrderByStoreAndId(store,orderId);
+        Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
         if(storeRepository.findById(store).isPresent()){
             if(order.isPresent()){
                 orderRepository.delete(order.get());
@@ -185,7 +204,7 @@ public class CustomerServiceImpl {
     public int OrderWeight(Order order){
         int weight =0;
         for(ItemLine l:order.getItems()){
-            Optional<Item> i = itemRepository.getItemByStoreAndName(l.getItem(),order.getStore().getName());
+            Optional<Item> i = itemRepository.findByStore_nameAndName(l.getItem(),order.getStore().getName());
             if(i.isPresent()){
                 weight += l.getQuantity()*i.get().getWeight();
             }

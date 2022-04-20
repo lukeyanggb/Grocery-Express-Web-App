@@ -15,14 +15,14 @@ public class ItemLine{
     @Column(name = "item")
     //@ManyToOne
     private String item;
-    private int unitPrice;
-    private int quantity;
+    private Integer unitPrice;
+    private Integer quantity;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
 
-    public ItemLine(String item,int unitPrice,int quantity,Order order){
+    public ItemLine(String item,Integer unitPrice,Integer quantity,Order order){
         this.item = item;
         this.unitPrice = unitPrice;
         this.quantity = quantity;

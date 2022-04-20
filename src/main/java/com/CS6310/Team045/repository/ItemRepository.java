@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
-    List<Item> getItemByStore(String store);
-    Optional<Item> getItemByStoreAndName(String store, String name);
+    List<Item> getItemByStore(Store store);
+    Optional<Item> findByStore_nameAndName(String store, String name);
 
 }
 
