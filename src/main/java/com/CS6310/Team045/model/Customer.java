@@ -2,6 +2,7 @@ package com.CS6310.Team045.model;
 
 import com.CS6310.Team045.exception.BaseException;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.transform.ToListResultTransformer;
 
@@ -26,7 +27,8 @@ public class Customer extends User{
     @Column(name = "outstanding_orders")
     private Integer outstandingOrders=0;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "requestedBy")
     private List<Order> orders;
 
 //    public Customer(){}

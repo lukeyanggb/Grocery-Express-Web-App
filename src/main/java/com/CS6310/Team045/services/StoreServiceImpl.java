@@ -1,6 +1,5 @@
 package com.CS6310.Team045.services;
 
-import com.CS6310.Team045.exception.BaseException;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,14 +58,14 @@ public class StoreServiceImpl implements StoreService{
 
 
     //add item to the store catalog
-    public void addItem(Item item) throws Exception {
-        String storeName = item.getSname();
+    public void addItem(String name, String weight, String store) throws Exception {
+        //String storeName = item.getStore().getName();
 //        System.out.println(storeName);
-        String itemName = item.getName();
+ //       String itemName = item.getName();
 //        System.out.println(itemName);
-        Optional<Store> store = findStore(storeName);
+        Optional<Store> optionalStore = findStore(store);
 //        System.out.println(store);
-        Optional<Item> optItem = itemRepository.findByStore_nameAndName(storeName, itemName);
+        Optional<Item> optItem = itemRepository.findByStore_nameAndName(store, name);
 //        System.out.println(optItem);
         if(store.isEmpty()){
             throw new Exception("ERROR:store_identifier_does_not_exist");
@@ -74,7 +73,7 @@ public class StoreServiceImpl implements StoreService{
             if(optItem.isPresent()){
                 throw new Exception("ERROR:item_identifier_already_exists");
             } else {
-                item.setStore(store.get());
+                Item item = new Item(name, Integer.parseInt(weight), optionalStore.get());
                  itemRepository.save(item);}
         }
     }
@@ -117,11 +116,10 @@ public class StoreServiceImpl implements StoreService{
 
 
     // create a drone
-    public void make_drone(Drone drone) throws Exception {
-        String storeName = drone.getSname();
-        String droneID = drone.getId();
+    public void make_drone(String storeName, String droneId,String capacity, String fuel) throws Exception {
+
         Optional<Store> store = findStore(storeName);
-        Optional<Drone> optDrone= droneRepository.findByStore_nameAndId(storeName, droneID);
+        Optional<Drone> optDrone= droneRepository.findByStore_nameAndId(storeName, droneId);
 
 //        System.out.println(storeName);
 //        System.out.println(droneID);
@@ -131,11 +129,13 @@ public class StoreServiceImpl implements StoreService{
         if(store.isEmpty()){
             throw new Exception("ERROR:store_identifier_does_not_exist");
         }
-        drone.setStore(store.get());
         if(optDrone.isPresent()){
             throw new Exception("ERROR:drone_identifier_already_exists");
         }
+
+        Drone drone = new Drone(droneId, Integer.parseInt(capacity),Integer.parseInt(fuel), store.get());
         droneRepository.save(drone);
+        System.out.println("finished");
 //        System.out.println(droneRepository.findByStore_nameAndId(storeName, droneID));
 
 //                System.out.println(drone);
@@ -168,11 +168,12 @@ public class StoreServiceImpl implements StoreService{
         }
         System.out.println(optDrone);
         System.out.println(accoutOpt);
+        Drone drone = optDrone.get();
+        System.out.println(accoutOpt.get().getAccount());
+        drone.setControlledBy(accoutOpt.get());
 
-        optDrone.get().assign(accoutOpt.get());
-        droneRepository.save(optDrone.get());
-        accoutOpt.get().assign(optDrone.get());
-        pilotRepository.save(accoutOpt.get());
+        droneRepository.save(drone);
+
 //        System.out.println(optDrone);
 //        System.out.println(accoutOpt);
     }

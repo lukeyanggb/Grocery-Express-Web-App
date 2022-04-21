@@ -17,8 +17,9 @@ public class ItemLine{
     private String item;
     private Integer unitPrice;
     private Integer quantity;
+
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id",nullable = false)
     private Order order;
 
 

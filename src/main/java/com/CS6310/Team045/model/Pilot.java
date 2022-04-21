@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "pilots")
 public class Pilot extends User{
@@ -23,7 +23,7 @@ public class Pilot extends User{
     private Integer experience;
 
     @OneToOne
-    @JoinColumn(name = "control_id")
+    @JoinColumn(name = "control_id",nullable = false)
     private Drone control;
 
     //public Pilot(){}
@@ -40,7 +40,7 @@ public class Pilot extends User{
     public void addExp(){
         this.experience++;
     }
-
+/*
     public void assign(Drone drone){
         if (this.control != null) {
             this.control.removePilot();
@@ -49,6 +49,6 @@ public class Pilot extends User{
     }
     public void remove(){
         this.control = null;
-    }
+    }*/
 
 }

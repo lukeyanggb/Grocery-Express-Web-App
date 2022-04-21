@@ -74,12 +74,25 @@ public class CustomerController {
 
     @PostMapping(value = "/request_item")
     public void requestItem(HttpServletRequest request) throws Exception {
-        String storeName = request.getParameter("storeName");
-        String orderId = request.getParameter("orderId");
-        String item = request.getParameter("item");
-        Integer quantity = Integer.parseInt(request.getParameter("quantity"));
-        Integer unitPirce = Integer.parseInt(request.getParameter("unitPirce"));
-        customerService.request_item(storeName,orderId,item,quantity,unitPirce);
+        try {
+            String storeName = request.getParameter("storeName");
+            String orderId = request.getParameter("orderId");
+            String item = request.getParameter("item");
+            //System.out.println(request.getParameter("item"));
+            //System.out.println(request.getParameter("unitPirce"));
+
+            Integer quantity = Integer.parseInt(request.getParameter("quantity"));
+            Integer unitPrice = Integer.parseInt(request.getParameter("unitPirce"));
+
+            customerService.request_item(storeName,orderId,item,quantity,unitPrice);
+            System.out.println("OK, change_completed");
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+//            System.out.println("Error:store_identifier_already_exists");
+        }
+
     }
 
     @PostMapping(value = "/purchase_order")
@@ -89,7 +102,7 @@ public class CustomerController {
         customerService.purchase(storeName,orderId);
     }
     @DeleteMapping(value = "/cancel_order")
-    public void cancelOrder(HttpServletRequest request){
+    public void cancelOrder(HttpServletRequest request) throws Exception{
         String storeName = request.getParameter("storeName");
         String orderId = request.getParameter("orderId");
         customerService.cancel_order(storeName, orderId);

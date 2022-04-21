@@ -114,47 +114,48 @@ public class CustomerServiceImpl {
     //add an item to the desigen order
     public void request_item(String storeName, String orderId, String itemName, Integer quantity, Integer unitPirce) throws Exception {
 
-//        Optional<Store> store = findStore(storeName);
-//        if (store.isEmpty()) {
-//            throw new Exception("ERROR:store_identifier_does_not_exist");
+        Optional<Store> store = findStore(storeName);
+        if (store.isEmpty()) {
+            throw new Exception("ERROR:store_identifier_does_not_exist");
+        }
+
+        Optional<Order> orderOpt = orderRepository.findOrderByStore_nameAndId(storeName,orderId);
+        if (orderOpt.isEmpty()) {
+            throw new Exception("ERROR:order_identifier_does_not_exist");
+        }
+
+
+        Optional<Item> optItem = itemRepository.findByStore_nameAndName(storeName, itemName);
+
+        if (optItem.isEmpty()) {
+            throw new Exception("ERROR:item_identifier_does_not_exist");
+        }
+
+//        Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
+//
+//        if (optDrone.isEmpty()) {
+//            throw new Exception("ERROR:drone_identifier_does_not_exist");
 //        }
-//
-//        Optional<Order> orderOpt = orderRepository.findOrderByStore_nameAndId(storeName,orderId);
-//        if (orderOpt.isEmpty()) {
-//            throw new Exception("ERROR:order_identifier_does_not_exist");
-//        }
-//
-//
-//        Optional<Item> optItem = itemRepository.findByStore_nameAndName(storeName, itemName);
-//
-//        if (optItem.isEmpty()) {
-//            throw new Exception("ERROR:item_identifier_does_not_exist");
-//        }
-//
-////        Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
-////
-////        if (optDrone.isEmpty()) {
-////            throw new Exception("ERROR:drone_identifier_does_not_exist");
-////        }
-//
-//        int lineweight = quantity*optItem.get().getWeight();
-//        int linecost = unitPirce* quantity;
-//        Drone drone = orderOpt.get().getDesignatedDrone();
-//        Customer customer = orderOpt.get().getRequestedBy();
-//        if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
-//            if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
-//
-//                ItemLine itemLine = new ItemLine(itemName, unitPirce,quantity,orderOpt.get());
-//                customer.addOutstandingOrders(linecost);
-//                drone.addCurrentLoad(lineweight);
-//                customerRepository.save(customer);
-//                droneRepository.save(drone);
-//                itemLineRepository.save(itemLine);
-//            }
-//            throw new Exception("ERROR:item_already_ordered");
+
+        int lineweight = quantity*optItem.get().getWeight();
+        int linecost = unitPirce* quantity;
+        Drone drone = orderOpt.get().getDesignatedDrone();
+        Customer customer = orderOpt.get().getRequestedBy();
+        if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
+            if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
+
+                ItemLine itemLine = new ItemLine(itemName, unitPirce,quantity,orderOpt.get());
+                customer.addOutstandingOrders(linecost);
+                drone.addCurrentLoad(lineweight);
+                customerRepository.save(customer);
+                droneRepository.save(drone);
+                itemLineRepository.save(itemLine);
+            }
+            throw new Exception("ERROR:item_already_ordered");
 
     }
-
+    }
+    //public void purchase(String store, String order){}
     // show all items under each order
     //public Map<String, ArrayList<>> display_orders(String storeName) {
     //}
@@ -162,44 +163,42 @@ public class CustomerServiceImpl {
 
     //purchase order
     public void purchase(String store, String order){
-//        Optional<Store> storeopt = storeRepository.findById(store);
-//        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
-//        if(storeopt.isPresent()){
-//            if(orderopt.isPresent()){
-//                Store s = storeopt.get();
-//                Customer customer = orderopt.get().getRequestedBy();
-//                Drone drone = orderopt.get().getDesignatedDrone();
-//                Pilot pilot = drone.getControlledBy();
-//                int cost = orderopt.get().orderCost();
-//                int weight = OrderWeight(orderopt.get());
-//                customer.pay(cost);
-//                drone.deductCurrentLoad(weight);
-//                s.addRevenue(cost);
-//                drone.deductFuel();
-//                pilot.addExp();
-//                customerRepository.save(customer);
-//                droneRepository.save(drone);
-//                storeRepository.save(s);
-//                pilotRepository.save(pilot);
-//
-//
-//            }
-//            throw new IllegalArgumentException();
-//        }
-//        throw new IllegalArgumentException();
+        Optional<Store> storeopt = storeRepository.findById(store);
+        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
+        if(storeopt.isPresent()){
+            if(orderopt.isPresent()){
+                Store s = storeopt.get();
+                Customer customer = orderopt.get().getRequestedBy();
+                Drone drone = orderopt.get().getDesignatedDrone();
+                Pilot pilot = drone.getControlledBy();
+                int cost = orderopt.get().orderCost();
+                int weight = OrderWeight(orderopt.get());
+                customer.pay(cost);
+                drone.deductCurrentLoad(weight);
+                s.addRevenue(cost);
+                drone.deductFuel();
+                pilot.addExp();
+                customerRepository.save(customer);
+                droneRepository.save(drone);
+                storeRepository.save(s);
+                pilotRepository.save(pilot);
+            }
+            throw new IllegalArgumentException();
+        }
+        throw new IllegalArgumentException();
     }
 
 
     //cancel order
-    public void cancel_order(String store, String orderId){
-//        Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
-//        if(storeRepository.findById(store).isPresent()){
-//            if(order.isPresent()){
-//                orderRepository.delete(order.get());
-//            }
-//            throw new IllegalArgumentException();
-//        }
-//        throw new IllegalArgumentException();
+    public void cancel_order(String store, String orderId) throws Exception{
+        Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
+        if(storeRepository.findById(store).isPresent()){
+            if(order.isPresent()){
+                orderRepository.delete(order.get());
+            }
+            throw new Exception("ERROR:order_identifier_already_exists");
+        }
+        throw new Exception("ERROR:store_identifier_already_exists");
 
     }
 
@@ -214,6 +213,8 @@ public class CustomerServiceImpl {
         }
         return weight;
     }
+
+
 
 
 

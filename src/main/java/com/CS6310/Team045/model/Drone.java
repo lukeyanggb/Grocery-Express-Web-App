@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,8 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString
-@Table(name = "drones")
+//@ToString
+@Table(name = "drone")
 public class Drone {
     @Id
     @Column(name = "id")
@@ -24,15 +25,19 @@ public class Drone {
     private Integer tripsBeforeRefueling;
     @Column(name = "current_load")
     private Integer currentLoad=0;
-    @ManyToOne
-    @JoinColumn(name = "store_name", insertable=false)
-    private Store store = null;
-    private String sname;
 
-    @OneToOne
-    @JoinColumn(name = "controlledBy_account")
+    @ManyToOne
+    @JoinColumn(name = "store")
+    private Store store;
+    //private String sname;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "control")
+    @JoinColumn(name = "account")
     private Pilot controlledBy;
-    @OneToMany
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "designatedDrone")
     private List<Order> orders;
 
 
@@ -43,10 +48,16 @@ public class Drone {
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
     }
+
+    public Drone(String id, Integer capacity, Integer tripsBeforeRefueling, Store store) {
+        this.id = id;
+        this.capacity = capacity;
+        this.tripsBeforeRefueling = tripsBeforeRefueling;
+        this.store = store;
+    }
+
     public void assign(Pilot pilot){
-        if (this.controlledBy != null){
-            this.controlledBy.remove();
-        }
+
         this.controlledBy = pilot;
 
     }

@@ -37,20 +37,23 @@ public class StoreController {
 
     //add item
     @PostMapping(value = "/sell_item")
-    public void sell_item(@RequestBody Item item){
+    public void sell_item(HttpServletRequest request){
 //        System.out.println(item.getName());
 //        System.out.println(item.getWeight());
 //        System.out.println(item.getSname());
 
         try{
-            storeService.addItem(item);
+            String name = request.getParameter("name");
+            String weight = request.getParameter("weight");
+            String store = request.getParameter("store");
+            storeService.addItem(name,weight,store);
             System.out.println("OK, change_completed");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    @RequestMapping(value = "/display_items")
+    @RequestMapping(value = "/items")
     public List<Item> findAllItems(HttpServletRequest request){
 //        http://localhost:8080/cs6300/team045/display_items?name=kroger
         String storeName = request.getParameter("name");
@@ -72,6 +75,7 @@ public class StoreController {
     @PostMapping(value = "/make_pilot")
     public void make_pilot(@RequestBody Pilot pilot){
         try{
+
             storeService.makePilot(pilot);
             System.out.println("OK, change_completed");
         }catch (Exception e){
@@ -88,10 +92,14 @@ public class StoreController {
 
     //make drone
     @PostMapping(value = "/make_drone")
-    public void make_drone(@RequestBody Drone drone){
+    public void make_drone(HttpServletRequest request){
+        String storeName = request.getParameter("name");
+        String droneId = request.getParameter("droneId");
+        String capacity = request.getParameter("capacity");
+        String fuel = request.getParameter("fuel");
 //        System.out.println(drone);
         try{
-            storeService.make_drone(drone);
+            storeService.make_drone(storeName, droneId,capacity,fuel);
             System.out.println("OK, change_completed");
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -100,15 +108,15 @@ public class StoreController {
     }
 
     //display drones
-    @RequestMapping(value = "/display_drones")
+    @RequestMapping(value = "/drones")
     public List<Drone> findAllDrones(HttpServletRequest request){
 //        http://localhost:8080/cs6300/team045/display_items?name=kroger
-        String droneName = request.getParameter("name");
+        String storeName = request.getParameter("name");
 
 //        System.out.println(storeName);
 
         try{
-            return storeService.display_drones(droneName);
+            return storeService.display_drones(storeName);
 //            System.out.println("OK, change_completed");
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -117,14 +125,18 @@ public class StoreController {
     }
 
     //fly drone
-    @RequestMapping(value = "/fly_drones")
+    @PostMapping(value = "/fly_drones")
     public void fly_drone(HttpServletRequest request){
 //        http://localhost:8080/cs6300/team045/fly_drones?storeName=kroger&pilotAccount=ffig8&droneId=1
-        String storeName = request.getParameter("storeName");
-        String pilotAccount = request.getParameter("pilotAccount");
-        String droneId = request.getParameter("droneId");
+        //http://localhost:8080/cs6300/team045/fly_drones?storeName=target&pilotAccount=ffig8&droneId=1
+
 
         try{
+            String storeName = request.getParameter("storeName");
+            String pilotAccount = request.getParameter("pilotAccount");
+            String droneId = request.getParameter("droneId");
+            System.out.println(droneId);
+
             storeService.flyDrone(storeName, pilotAccount, droneId);
             System.out.println("OK, change_completed");
         }catch (Exception e){

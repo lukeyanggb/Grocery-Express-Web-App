@@ -18,11 +18,12 @@ public class Item {
     private String name;
     @Column(name = "weight")
     private Integer weight;
-    @ManyToOne
-    @JoinColumn(name = "store_name", insertable=false)
-    private Store store = null;
 
-    private String sname;
+    @ManyToOne
+    @JoinColumn(name = "store",referencedColumnName = "name", nullable = false)
+    private Store store;
+
+    //private String sname;
     //@OneToMany
     //private List<ItemLine> lines;
 

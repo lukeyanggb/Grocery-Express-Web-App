@@ -1,5 +1,6 @@
 package com.CS6310.Team045.model;
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,14 +22,19 @@ public class Store {
     @Column(name = "revenue")
     private Integer revenue;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "store")
     private List<Item> items;
-    @OneToMany
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "store")
     private List<Drone> drones;
-    @OneToMany
-    private List<Drone> pilots;
-    @OneToMany
-    @JoinColumn(name = "orders_id")
+    //@OneToMany
+    //private List<Drone> pilots;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "store")
+    //@JoinColumn(name = "orders_id")
     private List<Order> orders;
 
     //public Store(){}
