@@ -1,4 +1,5 @@
 package com.CS6310.Team045.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Entity
 //@ToString
 @Table(name = "drone")
-public class Drone {
+public class Drone implements Serializable {
     @Id
     @Column(name = "id")
     private String id;

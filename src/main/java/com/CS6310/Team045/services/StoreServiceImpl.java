@@ -34,12 +34,16 @@ public class StoreServiceImpl implements StoreService{
 
 
     //create store
-    public void makeStore(Store store) throws Exception {
-        String name = store.getName();
+    public void makeStore(String name, Integer revenue) throws Exception {
+//        System.out.println(name);
+//        System.out.println(revenue);
+//        System.out.println(storeRepository.findStoreByName(name));
         Optional<Store> opt = storeRepository.findStoreByName(name);
+//        System.out.println(opt);
         if(opt.isPresent()){
             throw new Exception("Error:store_identifier_already_exists");
         } else {
+            Store store = new Store(name, revenue);
             storeRepository.save(store);
         }
     }
