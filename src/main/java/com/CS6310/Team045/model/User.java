@@ -1,6 +1,7 @@
 package com.CS6310.Team045.model;
 
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;

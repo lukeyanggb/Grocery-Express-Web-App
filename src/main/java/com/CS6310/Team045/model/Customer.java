@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.transform.ToListResultTransformer;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -16,7 +18,8 @@ import java.util.List;
 @Entity
 //@ToString
 @Table(name = "customers")
-public class Customer extends User{
+
+public class Customer extends User implements Serializable {
 
     @Column(name = "account")
     private String account;

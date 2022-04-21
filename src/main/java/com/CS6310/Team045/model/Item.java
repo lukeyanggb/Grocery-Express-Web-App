@@ -1,6 +1,9 @@
 package com.CS6310.Team045.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +24,7 @@ public class Item implements Serializable {
     private Integer weight;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "store",referencedColumnName = "name", nullable = false)
     private Store store;
 
