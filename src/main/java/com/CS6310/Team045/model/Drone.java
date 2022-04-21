@@ -69,12 +69,15 @@ public class Drone implements Serializable {
     public void addCurrentLoad(Integer load){
         currentLoad += load;
     }
-    public void deductCurrentLoad(Integer load){
-        currentLoad -= load;
-    }
+//    public void deductCurrentLoad(Integer load){
+//        currentLoad -= load;
+//    }
     public void deductFuel(){
         this.tripsBeforeRefueling--;
     }
 
-
+    public void removeOrder(Order order){
+        this.currentLoad -= order.getWeight();
+        this.orders.remove(order);
+    }
 }
