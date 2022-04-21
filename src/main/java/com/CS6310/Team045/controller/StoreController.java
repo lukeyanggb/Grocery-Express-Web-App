@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cs6300/team045")
+@RequestMapping("admin/cs6300/team045")
 public class StoreController {
     @Autowired
     private StoreServiceImpl storeService;
