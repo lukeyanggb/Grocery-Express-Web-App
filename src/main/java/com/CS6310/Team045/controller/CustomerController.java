@@ -94,9 +94,9 @@ public class CustomerController {
         }
 
     }
-
+//http://localhost:8080/cs6300/team045/purchase_order?storeName=target&orderId=purchaseA
     @PostMapping(value = "/purchase_order")
-    public void purchaseOrder(HttpServletRequest request){
+    public void purchaseOrder(HttpServletRequest request)throws Exception{
         String storeName = request.getParameter("storeName");
         String orderId = request.getParameter("orderId");
         customerService.purchase(storeName,orderId);

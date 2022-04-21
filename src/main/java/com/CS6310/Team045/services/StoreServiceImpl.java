@@ -166,13 +166,12 @@ public class StoreServiceImpl implements StoreService{
         if (accoutOpt.isEmpty()) {
             throw new Exception("ERROR:pilot_identifier_does_not_exist");
         }
-        System.out.println(optDrone);
-        System.out.println(accoutOpt);
-        Drone drone = optDrone.get();
-        System.out.println(accoutOpt.get().getAccount());
-        drone.setControlledBy(accoutOpt.get());
-
-        droneRepository.save(drone);
+        //System.out.println(optDrone);
+        //System.out.println(accoutOpt);
+        Pilot pilot = accoutOpt.get();
+        //System.out.println(accoutOpt.get().getAccount());
+        pilot.setControl(optDrone.get());
+        pilotRepository.save(pilot);
 
 //        System.out.println(optDrone);
 //        System.out.println(accoutOpt);

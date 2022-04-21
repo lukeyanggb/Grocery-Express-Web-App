@@ -162,30 +162,39 @@ public class CustomerServiceImpl {
 
 
     //purchase order
-    public void purchase(String store, String order){
-        Optional<Store> storeopt = storeRepository.findById(store);
-        Optional<Order> orderopt = orderRepository.findOrderByStore_nameAndId(store,order);
-        if(storeopt.isPresent()){
-            if(orderopt.isPresent()){
-                Store s = storeopt.get();
-                Customer customer = orderopt.get().getRequestedBy();
-                Drone drone = orderopt.get().getDesignatedDrone();
-                Pilot pilot = drone.getControlledBy();
-                int cost = orderopt.get().orderCost();
-                int weight = OrderWeight(orderopt.get());
-                customer.pay(cost);
-                drone.deductCurrentLoad(weight);
-                s.addRevenue(cost);
-                drone.deductFuel();
-                pilot.addExp();
-                customerRepository.save(customer);
-                droneRepository.save(drone);
-                storeRepository.save(s);
-                pilotRepository.save(pilot);
-            }
-            throw new IllegalArgumentException();
+    public void purchase(String storeName, String orderId) throws Exception{
+
+        Optional<Store> store = findStore(storeName);
+        if (store.isEmpty()) {
+            throw new Exception("ERROR:store_identifier_does_not_exist");
         }
-        throw new IllegalArgumentException();
+
+        Optional<Order> orderOpt = orderRepository.findOrderByStore_nameAndId(storeName,orderId);
+        if (orderOpt.isEmpty()) {
+            throw new Exception("ERROR:order_identifier_does_not_exist");
+        }
+        if(orderOpt.get().getDesignatedDrone().getControlledBy()==null){
+            throw new Exception("ERROR:pilot_does_not_exist");
+        }
+        Store s = store.get();
+        Customer customer = orderOpt.get().getRequestedBy();
+        Drone drone = orderOpt.get().getDesignatedDrone();
+
+        Pilot pilot = drone.getControlledBy();
+        int cost = orderOpt.get().orderCost();
+        int weight = OrderWeight(orderOpt.get());
+        customer.pay(cost);
+        drone.deductCurrentLoad(weight);
+        s.addRevenue(cost);
+        drone.deductFuel();
+        pilot.addExp();
+        customerRepository.save(customer);
+        droneRepository.save(drone);
+        storeRepository.save(s);
+        pilotRepository.save(pilot);
+        orderRepository.delete(orderOpt.get());
+
+
     }
 
 

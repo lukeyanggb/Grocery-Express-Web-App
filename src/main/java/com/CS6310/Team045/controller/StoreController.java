@@ -135,7 +135,7 @@ public class StoreController {
             String storeName = request.getParameter("storeName");
             String pilotAccount = request.getParameter("pilotAccount");
             String droneId = request.getParameter("droneId");
-            System.out.println(droneId);
+            //System.out.println(droneId);
 
             storeService.flyDrone(storeName, pilotAccount, droneId);
             System.out.println("OK, change_completed");

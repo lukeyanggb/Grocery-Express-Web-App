@@ -33,7 +33,7 @@ public class Drone {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "control")
-    @JoinColumn(name = "account")
+    //@JoinColumn(name = "account")
     private Pilot controlledBy;
 
     @JsonIgnore

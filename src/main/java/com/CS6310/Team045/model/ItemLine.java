@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 //@AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "itemLine")
 public class ItemLine{

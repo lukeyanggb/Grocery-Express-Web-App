@@ -12,7 +12,7 @@ import java.util.TreeMap;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "stores")
 public class Store {
