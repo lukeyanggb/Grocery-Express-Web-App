@@ -31,13 +31,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/user")
                 .hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/user/**")
+                .hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/admin")
                 .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
-                .and()
                 .httpBasic();
+        // Cross Site Request Forgery disabled:
+        // Details See https://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/html5/#csrf
+        http.cors().and().csrf().disable();
     }
 }

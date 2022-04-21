@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cs6300/team045")
+@RequestMapping("user/cs6300/team045")
 public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
