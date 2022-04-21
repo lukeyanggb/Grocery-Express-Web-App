@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -15,8 +16,11 @@ import java.util.TreeMap;
 //@ToString
 @Entity
 @Table(name = "stores")
-public class Store {
+public class Store implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @Column(name = "name", unique = true)
     private String name;
     @Column(name = "revenue")

@@ -1,4 +1,5 @@
 package com.CS6310.Team045.model;
+import java.io.Serializable;
 import java.util.*;
 import com.CS6310.Team045.exception.BaseException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 //@ToString
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
     @Id
     @Column(name = "id")
     private String id;

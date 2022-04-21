@@ -3,6 +3,8 @@ package com.CS6310.Team045.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import javax.persistence.*;
 //@ToString
 @Entity
 @Table(name = "itemLine")
-public class ItemLine{
+public class ItemLine implements Serializable {
     @Id
     @Column(name = "item")
     //@ManyToOne

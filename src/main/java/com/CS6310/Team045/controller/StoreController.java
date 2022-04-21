@@ -25,9 +25,18 @@ public class StoreController {
 
     //make store
     @PostMapping(value = "/make_store")
-    public void make_store(@RequestBody Store store){
+    public void make_store(HttpServletRequest request){
+//        http://localhost:8080/cs6300/team045/make_store?name=krogrr&revenue=33000
         try{
-            storeService.makeStore(store);
+            String name = request.getParameter("name");
+            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
+//            System.out.println(name);
+//            System.out.println(revenue);
+
+//            Store store = new Store(name,revenue);
+//                        System.out.println(store);
+
+            storeService.makeStore(name,revenue);
             System.out.println("OK, change_completed");
         }catch (Exception e){
             System.out.println(e.getMessage());

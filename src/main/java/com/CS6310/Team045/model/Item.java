@@ -3,6 +3,7 @@ package com.CS6310.Team045.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.List;
 //@ToString
 @Entity
 @Table(name = "items")
-public class Item {
+public class Item implements Serializable {
     @Id
     @Column(name = "name")
     private String name;
