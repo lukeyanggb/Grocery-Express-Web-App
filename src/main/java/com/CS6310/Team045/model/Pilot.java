@@ -1,8 +1,11 @@
 package com.CS6310.Team045.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -11,7 +14,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "pilots")
-public class Pilot extends User{
+public class Pilot extends User implements Serializable {
 
     @Column(name = "account")
     private String account;
@@ -23,6 +26,7 @@ public class Pilot extends User{
     private Integer experience;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "control_id")
     private Drone control;
 

@@ -1,8 +1,13 @@
 package com.CS6310.Team045.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,7 +15,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "itemLine")
-public class ItemLine{
+public class ItemLine implements Serializable {
     @Id
     @Column(name = "item")
     //@ManyToOne
@@ -18,6 +23,7 @@ public class ItemLine{
     private Integer unitPrice;
     private Integer quantity;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "order_id")
     private Order order;
 

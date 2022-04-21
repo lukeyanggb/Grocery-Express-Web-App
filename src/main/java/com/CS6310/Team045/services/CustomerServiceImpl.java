@@ -4,6 +4,7 @@ import com.CS6310.Team045.exception.BaseException;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -37,14 +38,18 @@ public class CustomerServiceImpl {
     //private BCryptPasswordEncoder passwordEncoder;
 
     //display all customer
+    @Cacheable(value = "Customer")
     public List<Customer> getCustomers(){
         return customerRepository.findAll();
     }
 
     //get a customer by id
+    @Cacheable(value = "Customer", key = "#id")
     public Optional<Customer> findById(long id){
         return customerRepository.findById(id);
     }
+
+    @Cacheable(value = "Customer", key = "#account")
     public Optional<Customer> findbyName(String account){
         Optional<Customer> opt = customerRepository.findByAccount(account);
         return opt;
@@ -60,6 +65,7 @@ public class CustomerServiceImpl {
         }
     }
 
+    @Cacheable(value="Store", key="#store")
     public Optional<Store> findStore(String store){
         return storeRepository.findStoreByName(store);
     }
@@ -103,6 +109,7 @@ public class CustomerServiceImpl {
 
 
     //show all orders at a given store
+    @Cacheable("Order")
     public List<Order> display_orders(String store) throws Exception {
         if(storeRepository.findStoreByName(store).isPresent()){
             return orderRepository.findOrderByStore_name(store);

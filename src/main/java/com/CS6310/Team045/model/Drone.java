@@ -1,9 +1,13 @@
 package com.CS6310.Team045.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 
@@ -14,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @ToString
 @Table(name = "drones")
-public class Drone {
+public class Drone implements Serializable {
     @Id
     @Column(name = "id")
     private String id;
@@ -25,6 +29,7 @@ public class Drone {
     @Column(name = "current_load")
     private Integer currentLoad=0;
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "store_name", insertable=false)
     private Store store = null;
     private String sname;
@@ -33,6 +38,7 @@ public class Drone {
     @JoinColumn(name = "controlledBy_account")
     private Pilot controlledBy;
     @OneToMany
+    @JsonManagedReference
     private List<Order> orders;
 
 

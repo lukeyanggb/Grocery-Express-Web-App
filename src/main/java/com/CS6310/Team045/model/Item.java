@@ -1,8 +1,12 @@
 package com.CS6310.Team045.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -12,13 +16,14 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "items")
-public class Item {
+public class Item implements Serializable {
     @Id
     @Column(name = "name")
     private String name;
     @Column(name = "weight")
     private Integer weight;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "store_name", insertable=false)
     private Store store = null;
 

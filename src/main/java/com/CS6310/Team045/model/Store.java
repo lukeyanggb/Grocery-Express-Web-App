@@ -1,8 +1,12 @@
 package com.CS6310.Team045.model;
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -14,7 +18,8 @@ import java.util.TreeMap;
 @ToString
 @Entity
 @Table(name = "stores")
-public class Store {
+public class Store implements Serializable {
+
     @Id
     @Column(name = "name", unique = true)
     private String name;
@@ -22,12 +27,16 @@ public class Store {
     private Integer revenue;
 
     @OneToMany
+    @JsonManagedReference
     private List<Item> items;
     @OneToMany
+    @JsonManagedReference
     private List<Drone> drones;
     @OneToMany
+    @JsonManagedReference
     private List<Drone> pilots;
     @OneToMany
+    @JsonManagedReference
     @JoinColumn(name = "orders_id")
     private List<Order> orders;
 
