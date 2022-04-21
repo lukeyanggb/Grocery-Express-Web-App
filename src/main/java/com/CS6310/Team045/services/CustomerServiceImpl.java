@@ -184,9 +184,10 @@ public class CustomerServiceImpl {
         int cost = orderOpt.get().orderCost();
         int weight = OrderWeight(orderOpt.get());
         customer.pay(cost);
-        drone.deductCurrentLoad(weight);
+//        drone.deductCurrentLoad(weight);
         s.addRevenue(cost);
         drone.deductFuel();
+        drone.removeOrder(orderOpt.get());
         pilot.addExp();
         customerRepository.save(customer);
         droneRepository.save(drone);

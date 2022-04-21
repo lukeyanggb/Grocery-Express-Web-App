@@ -59,15 +59,6 @@ public class Customer extends User{
         this.outstandingOrders += cost;
     }
 
-
-    public void deductCredits(Integer cost){
-        this.credits-=cost;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
     public Integer getCredits() {
         return credits;
     }
