@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.transform.ToListResultTransformer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -40,7 +41,8 @@ public class Customer extends User{
                     Integer credits) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
-        this.password = password;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
         this.rating = rating;
         this.credits = credits;
     }
