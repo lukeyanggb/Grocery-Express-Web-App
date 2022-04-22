@@ -6,6 +6,7 @@ import com.CS6310.Team045.model.Pilot;
 import com.CS6310.Team045.model.Store;
 import com.CS6310.Team045.services.StoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,17 @@ import java.util.List;
 public class StoreController {
     @Autowired
     private StoreServiceImpl storeService;
+
+
+
+    @GetMapping(value = "/hello")
+    public String hello(Model model) {
+        String name = "jiangbei";
+        model.addAttribute("name", name);
+        return "hello";
+    }
+
+
 
     //get all stores
     @GetMapping(value = "/stores")
