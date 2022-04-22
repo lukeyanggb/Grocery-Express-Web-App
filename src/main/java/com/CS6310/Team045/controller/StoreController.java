@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/cs6300/team045")
+@RequestMapping("admin/cs6310/team045")
 public class StoreController {
     @Autowired
     private StoreServiceImpl storeService;
@@ -26,7 +26,7 @@ public class StoreController {
     //make store
     @PostMapping(value = "/make_store")
     public void make_store(HttpServletRequest request){
-//        http://localhost:8080/cs6300/team045/make_store?name=krogrr&revenue=33000
+//        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
         try{
             String name = request.getParameter("name");
             Integer revenue = Integer.parseInt(request.getParameter("revenue"));
@@ -64,7 +64,7 @@ public class StoreController {
 
     @RequestMapping(value = "/items")
     public List<Item> findAllItems(HttpServletRequest request){
-//        http://localhost:8080/cs6300/team045/display_items?name=kroger
+//        http://localhost:8080/cs6310/team045/display_items?name=kroger
         String storeName = request.getParameter("name");
 
 //        System.out.println(storeName);
@@ -119,7 +119,7 @@ public class StoreController {
     //display drones
     @RequestMapping(value = "/drones")
     public List<Drone> findAllDrones(HttpServletRequest request){
-//        http://localhost:8080/cs6300/team045/display_items?name=kroger
+//        http://localhost:8080/cs6310/team045/display_items?name=kroger
         String storeName = request.getParameter("name");
 
 //        System.out.println(storeName);
@@ -136,8 +136,8 @@ public class StoreController {
     //fly drone
     @PostMapping(value = "/fly_drones")
     public void fly_drone(HttpServletRequest request){
-//        http://localhost:8080/cs6300/team045/fly_drones?storeName=kroger&pilotAccount=ffig8&droneId=1
-        //http://localhost:8080/cs6300/team045/fly_drones?storeName=target&pilotAccount=ffig8&droneId=1
+//        http://localhost:8080/cs6310/team045/fly_drones?storeName=kroger&pilotAccount=ffig8&droneId=1
+        //http://localhost:8080/cs6310/team045/fly_drones?storeName=target&pilotAccount=ffig8&droneId=1
 
 
         try{
