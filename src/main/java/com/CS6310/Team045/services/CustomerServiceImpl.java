@@ -4,6 +4,7 @@ import com.CS6310.Team045.exception.BaseException;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,7 @@ public class CustomerServiceImpl {
         if(opt.isPresent()){
             throw new IllegalArgumentException();
         } else {
+            customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             customerRepository.save(customer);
             // register to auth_user table;
             AuthUser authUser = new AuthUser(customer.getAccount(), customer.getPassword(), "USER");
