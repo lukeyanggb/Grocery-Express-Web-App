@@ -8,6 +8,7 @@ import com.CS6310.Team045.services.StoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,10 +22,12 @@ public class StoreController {
 
 
     @GetMapping(value = "/hello")
-    public String hello(Model model) {
+    public ModelAndView hello(Model model) {
         String name = "jiangbei";
         model.addAttribute("name", name);
-        return "hello";
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("hello.html");
+        return modelAndView;
     }
 
 
