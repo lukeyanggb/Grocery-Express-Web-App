@@ -27,7 +27,7 @@ public class Pilot extends User implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "control_id",nullable = false)
+    @JoinColumn(name = "control_id")
     private Drone control;
 
     //public Pilot(){}
