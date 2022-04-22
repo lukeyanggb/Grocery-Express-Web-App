@@ -33,6 +33,8 @@ public class CustomerServiceImpl {
     @Autowired
     private PilotRepository pilotRepository;
 
+    @Autowired
+    private AuthUserRepository authUserRepository;
     //@Autowired
     //private BCryptPasswordEncoder passwordEncoder;
 
@@ -57,6 +59,9 @@ public class CustomerServiceImpl {
             throw new IllegalArgumentException();
         } else {
             customerRepository.save(customer);
+            // register to auth_user table;
+            AuthUser authUser = new AuthUser(customer.getAccount(), customer.getPassword(), "USER");
+            authUserRepository.save(authUser);
         }
     }
 
