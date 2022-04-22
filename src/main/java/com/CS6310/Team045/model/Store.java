@@ -30,13 +30,13 @@ public class Store implements Serializable {
     @JsonManagedReference
     private List<Item> items;
     @OneToMany
-    @JsonManagedReference
+    @JsonIgnore
     private List<Drone> drones;
     @OneToMany
-    @JsonManagedReference
+    @JsonIgnore
     private List<Drone> pilots;
     @OneToMany
-    @JsonManagedReference
+    @JsonIgnore
     @JoinColumn(name = "orders_id")
     private List<Order> orders;
 
