@@ -21,16 +21,57 @@ public class StoreController {
 
 
 
-    @GetMapping(value = "/hello")
+    @GetMapping(value = "/admin_homepage")
     public ModelAndView hello(Model model) {
-        String name = "jiangbei";
-        model.addAttribute("name", name);
+//        http://localhost:8080/admin/cs6310/team045/admin_homepage
+//        String name = "jiangbei";
+//        model.addAttribute("name", name);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("hello.html");
+        modelAndView.setViewName("admin_homepage.html");
         return modelAndView;
     }
-
-
+//    @GetMapping(value = "/make_store_pre")
+//    public ModelAndView ms(Model model) {
+////        http://localhost:8080/admin/cs6310/team045/admin_homepage
+////        String name = "jiangbei";
+////        model.addAttribute("name", name);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("make_store.html");
+//        return modelAndView;
+//    }
+    //make store
+//    @RequestMapping(value = "/make_store", method = {RequestMethod.GET, RequestMethod.POST})
+//    public ModelAndView make_store(HttpServletRequest request){
+////        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
+//        try{
+//            String name = request.getParameter("name");
+//            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
+////            System.out.println(name);
+////            System.out.println(revenue);
+//
+////            Store store = new Store(name,revenue);
+////                        System.out.println(store);
+//
+//            storeService.makeStore(name,revenue);
+//            System.out.println("OK, change_completed");
+//            ModelAndView modelAndView = new ModelAndView();
+//            modelAndView.setViewName("make_store.html");
+//            return modelAndView;
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+////            System.out.println("Error:store_identifier_already_exists");
+//        }
+//        return null;
+//    }
+//    @GetMapping(value = "/hello")
+//    public ModelAndView hello(Model model) {
+//        String name = "jiangbei";
+//        model.addAttribute("name", name);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("hello.html");
+//        return modelAndView;
+//    }
+//
 
     //get all stores
     @GetMapping(value = "/stores")

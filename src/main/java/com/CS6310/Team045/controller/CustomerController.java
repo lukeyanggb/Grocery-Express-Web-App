@@ -8,7 +8,9 @@ import com.CS6310.Team045.services.CustomerService;
 import com.CS6310.Team045.services.CustomerServiceImpl;
 import io.micrometer.core.ipc.http.HttpSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,6 +20,16 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
+
+    @GetMapping(value = "/user_homepage")
+    public ModelAndView hello(Model model) {
+//        http://localhost:8080/admin/cs6310/team045/admin_homepage
+//        String name = "jiangbei";
+//        model.addAttribute("name", name);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user_homepage.html");
+        return modelAndView;
+    }
 
     @GetMapping(value ="/customers")
     public List<Customer> display_customers(){
