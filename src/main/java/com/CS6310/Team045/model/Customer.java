@@ -29,7 +29,7 @@ public class Customer extends User{
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "requestedBy")
-    private List<Order> orders;
+    private List<Order> orders = null;
 
 //    public Customer(){}
 

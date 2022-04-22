@@ -23,7 +23,7 @@ public class Pilot extends User{
     private Integer experience;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "control_id",nullable = false)
+    @JoinColumn(name = "control_id")
     private Drone control;
 
     //public Pilot(){}
