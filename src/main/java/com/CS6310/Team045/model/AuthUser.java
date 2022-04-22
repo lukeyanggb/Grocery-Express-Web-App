@@ -1,32 +1,33 @@
 package com.CS6310.Team045.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@NoArgsConstructor
 @Entity
+@Table(name = "auth_user")
 public class AuthUser {
     @Id
-    private Long id;
     private String username;
     private String password;
     private String role;
 
+    public AuthUser(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "AuthUser{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
