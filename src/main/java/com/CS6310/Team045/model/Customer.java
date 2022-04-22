@@ -20,6 +20,8 @@ public class Customer extends User{
 
     @Column(name = "account")
     private String account;
+    @Column(name = "password")
+    private String password;
     @Column(name = "rating")
     private Integer rating;
     @Column(name = "credits")
@@ -34,10 +36,11 @@ public class Customer extends User{
 //    public Customer(){}
 
 
-    public Customer(String account, String firstName, String lastName, String phoneNumber, Integer rating,
+    public Customer(String account, String password, String firstName, String lastName, String phoneNumber, Integer rating,
                     Integer credits) {
         super(firstName, lastName, phoneNumber);
         this.account = account;
+        this.password = password;
         this.rating = rating;
         this.credits = credits;
     }
@@ -66,6 +69,23 @@ public class Customer extends User{
         this.outstandingOrders -= cost;
         this.credits -=cost;
     }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /*
     * <dependency>
 			<groupId>org.springframework.boot</groupId>

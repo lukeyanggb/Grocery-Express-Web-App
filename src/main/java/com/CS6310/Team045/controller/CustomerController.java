@@ -27,7 +27,7 @@ public class CustomerController {
     @PostMapping(value = "/create_customer")
     public void make_customers(@RequestBody Customer customer){
         try{
-//        Customer customer = new Customer(account, firstName, lastName, phoneNumber, rating, credits);
+//        Customer customer = new Customer(account, password, firstName, lastName, phoneNumber, rating, credits);
         customerService.make_customer(customer);}
         catch (Exception e){
             System.out.println(e.getMessage());
