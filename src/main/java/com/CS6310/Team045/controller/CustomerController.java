@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("user/cs6300/team045")
+@RequestMapping("user/cs6310/team045")
 public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
@@ -37,7 +37,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/start_order")
     public void startOrder(HttpServletRequest request) throws Exception {
-        //        http://localhost:8080/cs6300/team045/start_order?storeName=kroger&orderId=purchaseA&droneId=1&customer=aapple2
+        //        http://localhost:8080/cs6310/team045/start_order?storeName=kroger&orderId=purchaseA&droneId=1&customer=aapple2
         try {
             String store = request.getParameter("storeName");
             String id = request.getParameter("orderId");
@@ -57,7 +57,7 @@ public class CustomerController {
 
     @RequestMapping(value ="/orders")
     public List<Order> display_orders(HttpServletRequest request){
-        //        http://localhost:8080/cs6300/team045/start_order?storeName=kroger
+        //        http://localhost:8080/cs6310/team045/start_order?storeName=kroger
         String storeName = request.getParameter("storeName");
 
 //        System.out.println(storeName);
@@ -94,7 +94,7 @@ public class CustomerController {
         }
 
     }
-//http://localhost:8080/cs6300/team045/purchase_order?storeName=target&orderId=purchaseA
+//http://localhost:8080/cs6310/team045/purchase_order?storeName=target&orderId=purchaseA
     @PostMapping(value = "/purchase_order")
     public void purchaseOrder(HttpServletRequest request)throws Exception{
         String storeName = request.getParameter("storeName");
