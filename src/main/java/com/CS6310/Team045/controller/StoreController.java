@@ -30,39 +30,51 @@ public class StoreController {
         modelAndView.setViewName("admin_homepage.html");
         return modelAndView;
     }
-//    @GetMapping(value = "/make_store_pre")
-//    public ModelAndView ms(Model model) {
-////        http://localhost:8080/admin/cs6310/team045/admin_homepage
-////        String name = "jiangbei";
-////        model.addAttribute("name", name);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("make_store.html");
-//        return modelAndView;
-//    }
+    @GetMapping(value = "/make_store_pre")
+    public ModelAndView ms() {
+//        http://localhost:8080/admin/cs6310/team045/admin_homepage
+//        String name = "jiangbei";
+//        model.addAttribute("name", name);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("make_store.html");
+        modelAndView.addObject("store", new Store());
+
+        return modelAndView;
+    }
+
     //make store
-//    @RequestMapping(value = "/make_store", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ModelAndView make_store(HttpServletRequest request){
-////        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
-//        try{
+    @PostMapping(value = "/make_store")
+    public String make_store(@ModelAttribute Store store){
+//        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
+        String errMsg;
+        try{
+//            System.out.println(request);
 //            String name = request.getParameter("name");
+            String name = store.getName();
+            System.out.println(name);
+            Integer revenue = store.getRevenue();
 //            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
-////            System.out.println(name);
-////            System.out.println(revenue);
-//
-////            Store store = new Store(name,revenue);
-////                        System.out.println(store);
-//
-//            storeService.makeStore(name,revenue);
+            System.out.println(revenue);
+//            Integer revenue = Integer.parseInt(revenue_str);
+//            System.out.println(name);
+//            System.out.println(revenue);
+
+//            Store store = new Store(name,revenue);
+//                        System.out.println(store);
+
+            storeService.makeStore(name,revenue);
 //            System.out.println("OK, change_completed");
-//            ModelAndView modelAndView = new ModelAndView();
-//            modelAndView.setViewName("make_store.html");
-//            return modelAndView;
-//        }catch (Exception e){
+            errMsg = "OK, change_completed";
+        }catch (Exception e){
 //            System.out.println(e.getMessage());
-////            System.out.println("Error:store_identifier_already_exists");
-//        }
-//        return null;
-//    }
+//            System.out.println("Error:store_identifier_already_exists");
+            errMsg = e.getMessage();
+        }
+        return errMsg;
+
+    }
+
+
 //    @GetMapping(value = "/hello")
 //    public ModelAndView hello(Model model) {
 //        String name = "jiangbei";
@@ -79,26 +91,30 @@ public class StoreController {
         return storeService.getAllStores();
     }
 
-    //make store
-    @PostMapping(value = "/make_store")
-    public void make_store(HttpServletRequest request){
-//        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
-        try{
-            String name = request.getParameter("name");
-            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
+//    //make store
+//    @PostMapping(value = "/make_store")
+//    public void make_store(HttpServletRequest request){
+////        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
+//        try{
+////            System.out.println(request);
+//            String name = request.getParameter("name");
+//            System.out.println(name);
+//            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
+//            System.out.println(revenue);
+////            Integer revenue = Integer.parseInt(revenue_str);
 //            System.out.println(name);
 //            System.out.println(revenue);
-
-//            Store store = new Store(name,revenue);
-//                        System.out.println(store);
-
-            storeService.makeStore(name,revenue);
-            System.out.println("OK, change_completed");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-//            System.out.println("Error:store_identifier_already_exists");
-        }
-    }
+//
+////            Store store = new Store(name,revenue);
+////                        System.out.println(store);
+//
+//            storeService.makeStore(name,revenue);
+//            System.out.println("OK, change_completed");
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+////            System.out.println("Error:store_identifier_already_exists");
+//        }
+//    }
 
     //add item
     @PostMapping(value = "/sell_item")

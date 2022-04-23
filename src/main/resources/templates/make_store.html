@@ -7,10 +7,12 @@
 </head>
 <body>
 <h1>Make store</h1>
-<form method= 'post', action = '/hello'>
-    name: <input type = 'text' th:name="name" /><br>
-    revenue: <input type = 'text' th:revenue = 'name'  /><br>
-    <input type = 'submit' value = 'submit' />
+<form  th:action="@{/admin/cs6310/team045/make_store}" th:object="${store}" method= 'post'>
+    <input type="text" th:field="*{name}" class="form-control"
+           id="name" placeholder="name" /> <br><br>
+    <input type="text" th:field="*{revenue}" class="form-control"
+           id="revenue" placeholder="revenue" /> <br><br>
+    <input type = 'submit' value = 'submit'>
 
 </form>
 
