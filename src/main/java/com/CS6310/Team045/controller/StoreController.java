@@ -51,10 +51,10 @@ public class StoreController {
 //            System.out.println(request);
 //            String name = request.getParameter("name");
             String name = store.getName();
-            System.out.println(name);
+//            System.out.println(name);
             Integer revenue = store.getRevenue();
 //            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
-            System.out.println(revenue);
+//            System.out.println(revenue);
 //            Integer revenue = Integer.parseInt(revenue_str);
 //            System.out.println(name);
 //            System.out.println(revenue);
