@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancel order</title>
+</head>
+<body>
+<h1>Cancel order</h1>
+<form  th:action="@{/user/cs6310/team045/cancel_order}" th:object="${order}" method= 'post'>
+
+    <label for="id">id:</label>
+    <input type="text" th:field="*{id}" class="form-control"
+           id="id" placeholder="id" /> <br><br>
+
+
+    <label for="storeName">storeName:</label>
+    <input type="text" th:field="*{storestoreName}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/user/cs6310/team045/user_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

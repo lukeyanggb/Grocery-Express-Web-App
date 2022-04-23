@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Drones of a Store</title>
+</head>
+<body>
+<h1>Display Drones of a Store</h1>
+
+<h1>Result</h1>
+<p th:text="'Message: ' + ${Message}" />
+
+<table class="table table-striped table-primary">
+    <thead class="ttop">
+    <tr class="table-info">
+        <td width="20px"><b> id</b></td>
+        <td><b>capacity</b> </td>
+        <td><b>tripsBeforeRefueling</b> </td>
+        <td><b>currentLoad</b> </td>
+        <td><b>currentLoad</b> </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="drone, iStat : ${drones}" th:style="${iStat.odd}? 'font-weight: normal;'">
+        <td width="20px" th:text="${drone.id}">
+        </td><td th:text="${drone.capacity}">
+        </td><td th:text="${drone.tripsBeforeRefueling}">
+    </td><td th:text="${drone.currentLoad}">
+    </td><td th:text="${drone.currentLoad}">
+
+
+    </td></tr>
+    </tbody>
+</table>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+</body>
+</html>
+

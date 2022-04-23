@@ -8,8 +8,10 @@
 <body>
 <h1>Make store</h1>
 <form  th:action="@{/admin/cs6310/team045/make_store}" th:object="${store}" method= 'post'>
+    <label for="name">name:</label>
     <input type="text" th:field="*{name}" class="form-control"
            id="name" placeholder="name" /> <br><br>
+    <label for="revenue">revenue:</label>
     <input type="text" th:field="*{revenue}" class="form-control"
            id="revenue" placeholder="revenue" /> <br><br>
     <input type = 'submit' value = 'submit'>

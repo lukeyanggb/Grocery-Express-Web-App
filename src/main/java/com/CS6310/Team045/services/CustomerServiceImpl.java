@@ -78,7 +78,7 @@ public class CustomerServiceImpl {
     }
 
     //create an order
-    public void start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
+    public String start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
 
 //        System.out.println(storeName);
 //        System.out.println(orderId);
@@ -111,6 +111,7 @@ public class CustomerServiceImpl {
 
         Order order = new Order(orderId,optDrone.get(), customerOptional.get(),store.get());
         orderRepository.save(order);
+        return orderId;
 
     }
 
@@ -215,14 +216,20 @@ public class CustomerServiceImpl {
 
     //cancel order
     public void cancel_order(String store, String orderId) throws Exception{
+//        System.out.println("<<<<<<<<<>>>>>>>>>");
+//        System.out.println(store);
+//        System.out.println(orderId);
+
         Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
-        if(storeRepository.findById(store).isPresent()){
+        if(storeRepository.findStoreByName(store).isPresent()){
             if(order.isPresent()){
                 orderRepository.delete(order.get());
+            } else {
+                throw new Exception("ERROR:order_identifier_does_not_exist");
             }
-            throw new Exception("ERROR:order_identifier_already_exists");
+        } else {
+            throw new Exception("ERROR:store_identifier_already_exists");
         }
-        throw new Exception("ERROR:store_identifier_already_exists");
 
     }
 

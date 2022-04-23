@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Make drone</title>
+</head>
+<body>
+<h1>Make drone</h1>
+
+<form  th:action="@{/admin/cs6310/team045/make_drone}" th:object="${drone}" method= 'post'>
+
+
+    <label for="id">id:</label>
+    <input type="text" th:field="*{id}" class="form-control"
+           id="id" placeholder="id" /> <br><br>
+
+
+    <label for="capacity">capacity:</label>
+    <input type="text" th:field="*{capacity}" class="form-control"
+           id="capacity" placeholder="capacity" /> <br><br>
+
+
+    <label for="tripsBeforeRefueling">tripsBeforeRefueling:</label>
+    <input type="text" th:field="*{tripsBeforeRefueling}" class="form-control"
+           id="tripsBeforeRefueling" placeholder="tripsBeforeRefueling" /> <br><br>
+
+    <label for="storeName">store:</label>
+    <input type="text" th:field="*{storeName}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+
+
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

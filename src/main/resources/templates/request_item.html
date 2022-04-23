@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Request item</title>
+</head>
+<body>
+<h1>Request item</h1>
+<form  th:action="@{/user/cs6310/team045/request_item}" th:object="${itemLine}" method= 'post'>
+
+    <label for="item">item:</label>
+    <input type="text" th:field="*{item}" class="form-control"
+           id="item" placeholder="item" /> <br><br>
+
+
+    <label for="storeName">storeName:</label>
+    <input type="text" th:field="*{storestoreName}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+
+    <label for="orderId">orderId:</label>
+    <input type="text" th:field="*{orderorderId}" class="form-control"
+           id="orderId" placeholder="orderId" /> <br><br>
+
+    <label for="quantity">quantity:</label>
+    <input type="text" th:field="*{quantity}" class="form-control"
+           id="quantity" placeholder="quantity" /> <br><br>
+
+
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/user/cs6310/team045/user_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

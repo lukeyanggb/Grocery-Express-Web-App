@@ -27,6 +27,8 @@ public class ItemLine implements Serializable {
     @JoinColumn(name = "order_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference
     private Order order;
+    private String storestoreName;
+    private String orderorderId;
 
 
     public ItemLine(String item,Integer unitPrice,Integer quantity,Order order){
