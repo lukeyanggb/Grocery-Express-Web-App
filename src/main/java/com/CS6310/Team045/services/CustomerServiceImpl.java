@@ -216,14 +216,20 @@ public class CustomerServiceImpl {
 
     //cancel order
     public void cancel_order(String store, String orderId) throws Exception{
+//        System.out.println("<<<<<<<<<>>>>>>>>>");
+//        System.out.println(store);
+//        System.out.println(orderId);
+
         Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
-        if(storeRepository.findById(store).isPresent()){
+        if(storeRepository.findStoreByName(store).isPresent()){
             if(order.isPresent()){
                 orderRepository.delete(order.get());
+            } else {
+                throw new Exception("ERROR:order_identifier_does_not_exist");
             }
-            throw new Exception("ERROR:order_identifier_already_exists");
+        } else {
+            throw new Exception("ERROR:store_identifier_already_exists");
         }
-        throw new Exception("ERROR:store_identifier_already_exists");
 
     }
 
