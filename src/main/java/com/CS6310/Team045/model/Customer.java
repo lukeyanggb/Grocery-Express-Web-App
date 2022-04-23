@@ -3,6 +3,7 @@ package com.CS6310.Team045.model;
 import com.CS6310.Team045.exception.BaseException;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.transform.ToListResultTransformer;
 import org.springframework.data.redis.core.RedisHash;
