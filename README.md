@@ -10,6 +10,7 @@ PLACEHOLDER
 * Java 11 or newer
 * JAVA IDE: e.g., IntelliJ IDEA
 * Maven 3.0+
+* Redis 6.2+
 
 ## Maven Spring Dependencies
 * Spring Web: to build restful web app.
@@ -39,10 +40,10 @@ PLACEHOLDER
    mysql> Use 6310Team045;
     ```
    4) You can use the mysql GUI tool such as MySQL Workbench, just create a database `6310Team045` which the spring web application can run on.
-4) Install Redis server
-   1) 'brew install redis' if using Mac + Homebrew
-   2) 'brew start redis' to start the Redis server. The application uses the default Redis port of 6379.
-   3) Use 'redis-cli monitor' in a terminal window to log Redis requests.
+4) Start Redis server
+   1) Download redis from [Redis website](https://redis.io/), or type `brew install redis` on command if using Homebrew for Mac and Linux.
+   2) `redis-server` or `brew services start redis` on command to start the Redis server. The application uses the default Redis port of 6379.
+   3) Use `redis-cli monitor` in a terminal window to log Redis requests.
    4) You can confirm the Redis cache is being utilized on repeated requests when there is no 'SET' invocation following the initial 'GET' request.
 5) Run application
 6) User authentication and authorization:
