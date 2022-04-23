@@ -59,8 +59,12 @@ PLACEHOLDER
       VALUES
       ("admin", "$2a$12$Qpk7f3lC63mOmqejFmPVZukoBVqEQp0CSSHunIYhPdtdLGVxhxwdO","ADMIN");
       ```
-6) Features:
+7) Features:
    1) AA
    2) BB
    3) CC
+8) When finished:
+   1) Close the spring web server
+   2) Shut down redis server: `ctrl + c`
+   3) Shut down mysql server if needed: ``
 ## PLACEHOLDER: TO BE UPDATED
