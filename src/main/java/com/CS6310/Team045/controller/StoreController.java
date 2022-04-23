@@ -30,7 +30,7 @@ public class StoreController {
         modelAndView.setViewName("admin_homepage.html");
         return modelAndView;
     }
-    @GetMapping(value = "/make_store_pre")
+    @GetMapping(value = "/make_store_form")
     public ModelAndView ms() {
 //        http://localhost:8080/admin/cs6310/team045/admin_homepage
 //        String name = "jiangbei";
@@ -44,7 +44,7 @@ public class StoreController {
 
     //make store
     @PostMapping(value = "/make_store")
-    public String make_store(@ModelAttribute Store store){
+    public ModelAndView make_store(@ModelAttribute Store store){
 //        http://localhost:8080/cs6310/team045/make_store?name=krogrr&revenue=33000
         String errMsg;
         try{
@@ -70,7 +70,10 @@ public class StoreController {
 //            System.out.println("Error:store_identifier_already_exists");
             errMsg = e.getMessage();
         }
-        return errMsg;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("make_store_msg.html");
+        modelAndView.addObject("Message", errMsg);
+        return modelAndView;
 
     }
 
