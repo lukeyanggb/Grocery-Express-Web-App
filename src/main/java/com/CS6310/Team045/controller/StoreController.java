@@ -74,7 +74,6 @@ public class StoreController {
         modelAndView.setViewName("make_store_msg.html");
         modelAndView.addObject("Message", errMsg);
         return modelAndView;
-
     }
 
 
@@ -90,8 +89,12 @@ public class StoreController {
 
     //get all stores
     @GetMapping(value = "/stores")
-    public List<Store> findAllStores(){
-        return storeService.getAllStores();
+    public ModelAndView findAllStores(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("stores.html");
+        modelAndView.addObject("stores", storeService.getAllStores());
+
+        return modelAndView;
     }
 
 //    //make store
