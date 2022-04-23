@@ -4,14 +4,14 @@
 ### Overview
 PLACEHOLDER
 
-### Requirements
+## Requirements
 
 * MySQL Server
 * Java 11 or newer
 * JAVA IDE: e.g., IntelliJ IDEA
 * Maven 3.0+
 
-### Maven Spring Dependencies
+## Maven Spring Dependencies
 * Spring Web: to build restful web app.
 * Spring Data JPA: persist data in SQL store.
 * MySQL Driver
@@ -19,7 +19,7 @@ PLACEHOLDER
 * Spring Data Redis: in memory database for better performance
 * Thymeleaf: html template engines.
 
-### Steps:
+## Steps:
 
 1) Open the project in IDE:
 2) Under src/main/resources, change the application properties:
@@ -54,4 +54,4 @@ PLACEHOLDER
       ("admin", "$2a$12$Qpk7f3lC63mOmqejFmPVZukoBVqEQp0CSSHunIYhPdtdLGVxhxwdO","ADMIN");
       ```
    4) PENDING
-### PLACEHOLDER: TO BE UPDATED
+## PLACEHOLDER: TO BE UPDATED
