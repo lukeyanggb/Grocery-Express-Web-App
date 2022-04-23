@@ -43,7 +43,7 @@ PLACEHOLDER
 5) User authentication and authorization:
    1) By default, there are two types of users: ``ADMIN`` and ``USER``. The authenticating users information are stored in `auth_user` table.
    2) The authenticating user password is encrypted by `BCryptPasswordEncoder`. Details see [BCryptPasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCryptPasswordEncoder.html) documentation.
-   3) Once the application has started, we need to create a root ``ADMIN`` user (the username and password are both `admin`):
+   3) Once the application has started, you need to create a root ``ADMIN`` user (the username and password are both `admin`):
       ```sql
       INSERT INTO auth_user (
       username,
@@ -53,5 +53,8 @@ PLACEHOLDER
       VALUES
       ("admin", "$2a$12$Qpk7f3lC63mOmqejFmPVZukoBVqEQp0CSSHunIYhPdtdLGVxhxwdO","ADMIN");
       ```
-   4) PENDING
+6) Features:
+   1) AA
+   2) BB
+   3) CC
 ## PLACEHOLDER: TO BE UPDATED
