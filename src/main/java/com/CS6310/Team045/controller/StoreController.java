@@ -186,6 +186,7 @@ public class StoreController {
     public ModelAndView items_form() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("items_input.html");
+        modelAndView.addObject("stores", storeService.getAllStores());
         modelAndView.addObject("store", new Store());
         return modelAndView;
     }
@@ -340,7 +341,9 @@ public ModelAndView make_drone(@ModelAttribute Drone drone){
     public ModelAndView dronef() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("drones_input.html");
+        modelAndView.addObject("stores", storeService.getAllStores());
         modelAndView.addObject("store", new Store());
+
         return modelAndView;
     }
 
@@ -467,6 +470,7 @@ public ModelAndView make_drone(@ModelAttribute Drone drone){
     public ModelAndView orders_form() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("orders_input.html");
+        modelAndView.addObject("stores", storeService.getAllStores());
         modelAndView.addObject("store", new Store());
         return modelAndView;
     }
