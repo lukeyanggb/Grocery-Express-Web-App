@@ -39,8 +39,13 @@ PLACEHOLDER
    mysql> Use 6310Team045;
     ```
    4) You can use the mysql GUI tool such as MySQL Workbench, just create a database `6310Team045` which the spring web application can run on.
-4) Run application
-5) User authentication and authorization:
+4) Install Redis server
+   1) 'brew install redis' if using Mac + Homebrew
+   2) 'brew start redis' to start the Redis server. The application uses the default Redis port of 6379.
+   3) Use 'redis-cli monitor' in a terminal window to log Redis requests.
+   4) You can confirm the Redis cache is being utilized on repeated requests when there is no 'SET' invocation following the initial 'GET' request.
+5) Run application
+6) User authentication and authorization:
    1) By default, there are two types of users: ``ADMIN`` and ``USER``. The authenticating users information are stored in `auth_user` table.
    2) The authenticating user password is encrypted by `BCryptPasswordEncoder`. Details see [BCryptPasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCryptPasswordEncoder.html) documentation.
    3) Once the application has started, we need to create a root ``ADMIN`` user (the username and password are both `admin`):

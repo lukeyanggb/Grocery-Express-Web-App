@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.CS6310.Team045.exception.BaseException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 
@@ -28,6 +30,7 @@ public class Drone implements Serializable {
     private Integer currentLoad=0;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "store")
     private Store store;
     //private String sname;

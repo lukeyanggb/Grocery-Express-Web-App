@@ -3,6 +3,7 @@ package com.CS6310.Team045.services;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class StoreServiceImpl implements StoreService{
         }
     }
 
+    @Cacheable(value = "Store", key = "#store")
     public Optional<Store> findStore(String store){
         return storeRepository.findStoreByName(store);
     }
@@ -55,6 +57,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     // show all stores
+    @Cacheable("Store")
     public List<Store> getAllStores(){
         return storeRepository.findAll();
     }
@@ -84,6 +87,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     //show all item at a store
+    @Cacheable(value = "Item", key = "#storeName")
     public List<Item> display_items(String storeName) throws Exception {
 //        System.out.println(storeName);
 
@@ -113,6 +117,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     //display pilots
+    @Cacheable("Pilot")
     public List<Pilot> display_pilots(){
         return pilotRepository.findAll();
 
@@ -147,6 +152,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     //show all drones in a store
+    @Cacheable(value = "Drone", key = "#store")
     public List<Drone> display_drones(String store) throws Exception {
         Optional<Store> opt = findStore(store);
         if(opt.isEmpty()){
