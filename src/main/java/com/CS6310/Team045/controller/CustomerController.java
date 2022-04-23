@@ -6,7 +6,6 @@ import com.CS6310.Team045.model.Order;
 import com.CS6310.Team045.model.Store;
 import com.CS6310.Team045.services.CustomerService;
 import com.CS6310.Team045.services.CustomerServiceImpl;
-import io.micrometer.core.ipc.http.HttpSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
