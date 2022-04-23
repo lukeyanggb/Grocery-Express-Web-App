@@ -60,8 +60,9 @@ PLACEHOLDER
       ("admin", "$2a$12$Qpk7f3lC63mOmqejFmPVZukoBVqEQp0CSSHunIYhPdtdLGVxhxwdO","ADMIN");
       ```
 7) Features:
-   1) AA
-   2) BB
+   1) Performance
+      1) Utilized in memory database for better performance. The application is integrated with Redis cache, and minimizing the amount of network calls by using cache rather than sending request to the database. 
+   2) Security
    3) CC
 8) When finished:
    1) Close the spring web server
