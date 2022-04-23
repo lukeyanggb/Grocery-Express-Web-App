@@ -3,14 +3,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Make pilot</title>
+    <title>Make customer</title>
 </head>
 <body>
-<h1>Make pilot</h1>
-<form  th:action="@{/admin/cs6310/team045/make_pilot}" th:object="${pilot}" method= 'post'>
+<h1>Make customer</h1>
+<form  th:action="@{/admin/cs6310/team045/make_customer}" th:object="${customer}" method= 'post'>
     <label for="account">account:</label>
     <input type="text" th:field="*{account}" class="form-control"
            id="account" placeholder="account" /> <br><br>
+
+
+    <label for="password">password:</label>
+    <input type="text" th:field="*{password}" class="form-control"
+           id="password" placeholder="password" /> <br><br>
 
     <label for="firstName">firstName:</label>
     <input type="text" th:field="*{firstName}" class="form-control"
@@ -20,23 +25,17 @@
     <input type="text" th:field="*{lastName}" class="form-control"
            id="lastName" placeholder="lastName" /> <br><br>
 
-
     <label for="phoneNumber">phoneNumber:</label>
     <input type="text" th:field="*{phoneNumber}" class="form-control"
            id="phoneNumber" placeholder="phoneNumber" /> <br><br>
 
-    <label for="taxID">taxID:</label>
-    <input type="text" th:field="*{taxID}" class="form-control"
-           id="taxID" placeholder="taxID" /> <br><br>
+    <label for="rating">rating:</label>
+    <input type="text" th:field="*{rating}" class="form-control"
+           id="rating" placeholder="rating" /> <br><br>
 
-    <label for="licenseID">licenseID:</label>
-    <input type="text" th:field="*{licenseID}" class="form-control"
-           id="licenseID" placeholder="licenseID" /> <br><br>
-
-    <label for="experience">experience:</label>
-    <input type="text" th:field="*{experience}" class="form-control"
-           id="experience" placeholder="experience" /> <br><br>
-
+    <label for="credits">credits:</label>
+    <input type="text" th:field="*{credits}" class="form-control"
+           id="credits" placeholder="credits" /> <br><br>
 
     <input type = 'submit' value = 'submit'>
 

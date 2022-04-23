@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock item</title>
+</head>
+<body>
+<h1>Stock item</h1>
+<form  th:action="@{/admin/cs6310/team045/stock_item}" th:object="${item}" method= 'post'>
+
+    <label for="name">name:</label>
+    <input type="text" th:field="*{name}" class="form-control"
+           id="name" placeholder="name" /> <br><br>
+
+
+    <label for="weight">weight:</label>
+    <input type="text" th:field="*{weight}" class="form-control"
+           id="weight" placeholder="weight" /> <br><br>
+
+    <label for="storeName">storeName:</label>
+    <input type="text" th:field="*{storeName}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

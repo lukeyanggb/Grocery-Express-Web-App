@@ -65,7 +65,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     //add item to the store catalog
-    public void addItem(String name, String weight, String store) throws Exception {
+    public void addItem(String name, Integer weight, String store) throws Exception {
         //String storeName = item.getStore().getName();
 //        System.out.println(storeName);
  //       String itemName = item.getName();
@@ -80,7 +80,7 @@ public class StoreServiceImpl implements StoreService{
             if(optItem.isPresent()){
                 throw new Exception("ERROR:item_identifier_already_exists");
             } else {
-                Item item = new Item(name, Integer.parseInt(weight), optionalStore.get());
+                Item item = new Item(name, weight, optionalStore.get());
                  itemRepository.save(item);}
         }
     }
@@ -125,7 +125,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     // create a drone
-    public void make_drone(String storeName, String droneId,String capacity, String fuel) throws Exception {
+    public void make_drone(String storeName, String droneId,Integer capacity, Integer fuel) throws Exception {
 
         Optional<Store> store = findStore(storeName);
         Optional<Drone> optDrone= droneRepository.findByStore_nameAndId(storeName, droneId);
@@ -142,9 +142,9 @@ public class StoreServiceImpl implements StoreService{
             throw new Exception("ERROR:drone_identifier_already_exists");
         }
 
-        Drone drone = new Drone(droneId, Integer.parseInt(capacity),Integer.parseInt(fuel), store.get());
+        Drone drone = new Drone(droneId, capacity,fuel, store.get());
         droneRepository.save(drone);
-        System.out.println("finished");
+//        System.out.println("finished");
 //        System.out.println(droneRepository.findByStore_nameAndId(storeName, droneID));
 
 //                System.out.println(drone);

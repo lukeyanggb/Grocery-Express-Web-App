@@ -35,6 +35,8 @@ public class Order implements Serializable {
     @JsonBackReference
     @JoinColumn( name = "store_name", nullable = false)
     private Store store;
+    private String storestoreName;
+
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "order")

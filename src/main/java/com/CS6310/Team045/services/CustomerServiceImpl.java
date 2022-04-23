@@ -78,7 +78,7 @@ public class CustomerServiceImpl {
     }
 
     //create an order
-    public void start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
+    public String start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
 
 //        System.out.println(storeName);
 //        System.out.println(orderId);
@@ -111,6 +111,7 @@ public class CustomerServiceImpl {
 
         Order order = new Order(orderId,optDrone.get(), customerOptional.get(),store.get());
         orderRepository.save(order);
+        return orderId;
 
     }
 

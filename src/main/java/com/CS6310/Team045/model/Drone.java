@@ -33,7 +33,7 @@ public class Drone implements Serializable {
     @JsonManagedReference
     @JoinColumn(name = "store")
     private Store store;
-    //private String sname;
+    private String storeName;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "control")
@@ -58,6 +58,13 @@ public class Drone implements Serializable {
         this.capacity = capacity;
         this.tripsBeforeRefueling = tripsBeforeRefueling;
         this.store = store;
+    }
+
+    public Drone(String id, Integer capacity, Integer tripsBeforeRefueling, String storeName) {
+        this.id = id;
+        this.capacity = capacity;
+        this.tripsBeforeRefueling = tripsBeforeRefueling;
+        this.storeName = storeName;
     }
 
     public void assign(Pilot pilot){

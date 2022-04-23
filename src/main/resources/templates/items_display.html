@@ -2,25 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Display Stores</title>
+    <title>Display Items of a Store</title>
 </head>
 <body>
-<h1>Display Stores</h1>
+<h1>Display Items of a Store</h1>
+
+<h1>Result</h1>
+<p th:text="'Message: ' + ${Message}" />
 <table class="table table-striped table-primary">
     <thead class="ttop">
     <tr class="table-info">
-        <td width="20px"><b> ID</b></td>
-        <td><b>name</b> </td>
-        <td><b>revenue</b> </td>
+        <td width="20px"><b> name</b></td>
+        <td><b>weight</b> </td>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item, iStat : ${items}" th:style="${iStat.odd}? 'font-weight: normal;'">
+        <td width="20px" th:text="${item.name}">
+        </td><td th:text="${item.weight}">
 
-        <td width="20px" th:text="${item.id}">
-        </td><td th:text="${item.name}">
-    </td><td th:text="${item.revenue}">
-    </td></tr>
+        </td></tr>
     </tbody>
 </table>
 <a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>

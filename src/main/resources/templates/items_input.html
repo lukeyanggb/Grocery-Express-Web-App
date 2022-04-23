@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Display items of a store</title>
+</head>
+<body>
+<h1>Display items of a store</h1>
+<form  th:action="@{/admin/cs6310/team045/items}" th:object="${store}" method= 'post'>
+    <label for="storeName">storeName:</label>
+    <input type="text" th:field="*{name}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

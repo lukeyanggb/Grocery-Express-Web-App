@@ -6,6 +6,7 @@ import com.CS6310.Team045.model.Order;
 import com.CS6310.Team045.model.Store;
 import com.CS6310.Team045.services.CustomerService;
 import com.CS6310.Team045.services.CustomerServiceImpl;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,58 +31,60 @@ public class CustomerController {
         return modelAndView;
     }
 
-    @GetMapping(value ="/customers")
-    public List<Customer> display_customers(){
-        return customerService.getCustomers();
+    @GetMapping(value = "/start_order_form")
+    public ModelAndView start_order_form() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("start_order.html");
+        modelAndView.addObject("order", new Order());
+        return modelAndView;
     }
 
-    @PostMapping(value = "/create_customer")
-    public void make_customers(@RequestBody Customer customer){
+    @PostMapping(value = "/start_order")
+    public ModelAndView start_order(@ModelAttribute Order order){
+        String errMsg;
+        String orderId = null;
         try{
-//        Customer customer = new Customer(account, password, firstName, lastName, phoneNumber, rating, credits);
-        customerService.make_customer(customer);}
-        catch (Exception e){
-            System.out.println(e.getMessage());
-//            System.out.println("Error:store_identifier_already_exists");
-        }
-    }
+//            String name = store.getName();
+//            Integer revenue = store.getRevenue();
+            String store = order.getStorestoreName();
+            String id = order.getId();
+            String designatedDrone = "11";
+            String requestedBy = "11";
 
-    @RequestMapping(value = "/start_order")
-    public void startOrder(HttpServletRequest request) throws Exception {
-        //        http://localhost:8080/cs6310/team045/start_order?storeName=kroger&orderId=purchaseA&droneId=1&customer=aapple2
-        try {
-            String store = request.getParameter("storeName");
-            String id = request.getParameter("orderId");
-            String designatedDrone = request.getParameter("droneId");
-            String requestedBy = request.getParameter("customer");
-
-
-            customerService.start_order(store, id, designatedDrone, requestedBy);
-            System.out.println("OK, change_completed");
-
-        }
-    catch (Exception e){
-        System.out.println(e.getMessage());
-//            System.out.println("Error:store_identifier_already_exists");
-    }
-    }
-
-    @RequestMapping(value ="/orders")
-    public List<Order> display_orders(HttpServletRequest request){
-        //        http://localhost:8080/cs6310/team045/start_order?storeName=kroger
-        String storeName = request.getParameter("storeName");
-
-//        System.out.println(storeName);
-
-        try{
-            return customerService.display_orders(storeName);
-//            System.out.println("OK, change_completed");
+            orderId = customerService.start_order(store, id, designatedDrone, requestedBy);
+            errMsg = "OK, change_completed";
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            errMsg = e.getMessage();
         }
-        return null;
-
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("start_order_msg.html");
+        modelAndView.addObject("Message", errMsg);
+        modelAndView.addObject("orderId", orderId);
+        return modelAndView;
     }
+
+
+//    @RequestMapping(value = "/start_order")
+//    public void startOrder(HttpServletRequest request) throws Exception {
+//        //        http://localhost:8080/cs6310/team045/start_order?storeName=kroger&orderId=purchaseA&droneId=1&customer=aapple2
+//        try {
+//            String store = request.getParameter("storeName");
+//            String id = request.getParameter("orderId");
+//            String designatedDrone = request.getParameter("droneId");
+//            String requestedBy = request.getParameter("customer");
+//
+//
+//            customerService.start_order(store, id, designatedDrone, requestedBy);
+//            System.out.println("OK, change_completed");
+//
+//        }
+//    catch (Exception e){
+//        System.out.println(e.getMessage());
+////            System.out.println("Error:store_identifier_already_exists");
+//    }
+//    }
+
+
 
     @PostMapping(value = "/request_item")
     public void requestItem(HttpServletRequest request) throws Exception {
