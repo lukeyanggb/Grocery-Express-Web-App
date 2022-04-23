@@ -51,10 +51,10 @@ public class StoreController {
 //            System.out.println(request);
 //            String name = request.getParameter("name");
             String name = store.getName();
-            System.out.println(name);
+//            System.out.println(name);
             Integer revenue = store.getRevenue();
 //            Integer revenue = Integer.parseInt(request.getParameter("revenue"));
-            System.out.println(revenue);
+//            System.out.println(revenue);
 //            Integer revenue = Integer.parseInt(revenue_str);
 //            System.out.println(name);
 //            System.out.println(revenue);
@@ -74,7 +74,6 @@ public class StoreController {
         modelAndView.setViewName("make_store_msg.html");
         modelAndView.addObject("Message", errMsg);
         return modelAndView;
-
     }
 
 
@@ -90,8 +89,12 @@ public class StoreController {
 
     //get all stores
     @GetMapping(value = "/stores")
-    public List<Store> findAllStores(){
-        return storeService.getAllStores();
+    public ModelAndView findAllStores(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("stores.html");
+        modelAndView.addObject("stores", storeService.getAllStores());
+
+        return modelAndView;
     }
 
 //    //make store

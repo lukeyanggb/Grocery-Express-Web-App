@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Make pilot</title>
+</head>
+<body>
+<h1>Make pilot</h1>
+<form  th:action="@{/admin/cs6310/team045/make_pilot}" th:object="${pilot}" method= 'post'>
+    <input type="text" th:field="*{name}" class="form-control"
+           id="name" placeholder="name" /> <br><br>
+    <input type="text" th:field="*{revenue}" class="form-control"
+           id="revenue" placeholder="revenue" /> <br><br>
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

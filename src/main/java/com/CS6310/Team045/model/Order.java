@@ -2,8 +2,11 @@ package com.CS6310.Team045.model;
 import java.io.Serializable;
 import java.util.*;
 import com.CS6310.Team045.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 
@@ -19,13 +22,17 @@ public class Order implements Serializable {
     @Column(name = "id")
     private String id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "designated_drone")
     private Drone designatedDrone;
+
     @ManyToOne
+    @JsonBackReference
     @JoinColumn (name = "customer_id", nullable = false)
     private Customer requestedBy;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn( name = "store_name", nullable = false)
     private Store store;
 
