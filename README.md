@@ -6,8 +6,8 @@ PLACEHOLDER
 
 ## Requirements
 
-* MySQL Server
-* Java 11 or newer
+* MySQL Database
+* Java 11+
 * JAVA IDE: e.g., IntelliJ IDEA
 * Maven 3.0+
 * Redis 6.2+
