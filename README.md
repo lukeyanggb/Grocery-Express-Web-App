@@ -54,10 +54,12 @@ your own mysql server!__
    3) Use `redis-cli monitor` in a terminal window to log Redis requests.
    4) You can confirm the Redis cache is being utilized on repeated requests when there is no 'SET' invocation 
    following the initial 'GET' request.
-5) Run application:  
-   1) [Homepage](`http://localhost:8080`) at `http://localhost:8080`
-   2) From homepage, you can login into the system as `USER` or `ADMIN`. Details see Steps 6 below.
-   3) __Note: Only admin user has the authority to create customer user account in current version due to the 
+5) Run application:
+   1) Run the spring application in IDE. Another option is run the jar file (If no configuration change as in Step 2) 
+   in `/ExecutableJAR/Team045-0.0.1-SNAPSHOT.jar` using the following command `java -jar Team045-0.0.1-SNAPSHOT.jar`. 
+   2) [Homepage](`http://localhost:8080`) at `http://localhost:8080`
+   3) From homepage, you can login into the system as `USER` or `ADMIN`. Details see Steps 6 below.
+   4) __Note: Only admin user has the authority to create customer user account in current version due to the 
    restriction on setting user `credit`.__
 6) User authentication and authorization and password encryption:
    1) By default, there are two types of users: ``ADMIN`` and ``USER``. The authenticating users information are 
