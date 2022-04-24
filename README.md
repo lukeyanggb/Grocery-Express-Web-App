@@ -2,7 +2,11 @@
 
 
 ### Overview
-PLACEHOLDER
+The Grocery Express Web Application satisfies the client's requirements. In addition, four significant architectual improvements were made:
+  1) Performance: Utilized in memory database for better performance. The application is integrated with Redis cache, and minimizing the amount of network calls by using cache rather than sending request to the database
+  2) Configurability: 
+  3) Authentication/Authorization: See Steps 6.
+  4) Security: See Steps 6.
 
 ## Requirements
 
@@ -35,7 +39,7 @@ your own mysql server!__
 3) Create a database for the application:
     1) Open a terminal (command prompt in Microsoft Windows) and open a MySQL client as a user who can create new users. 
     2) For example, on a Linux system, use the following command (replace root with your username):``$ mysql -u root -p``
-    3) To create a new database, run the following commands: 
+    3) To create a new database, run the following commands on mysql CLI: 
    ```
    mysql> Create database 6310Team045;
    mysql> Use 6310Team045;
@@ -43,17 +47,19 @@ your own mysql server!__
    4) You can use the mysql GUI tool such as MySQL Workbench, just create a database `6310Team045` which the 
    spring web application can run on.
 4) Start Redis server
-   1) Download redis from [Redis website](https://redis.io/), or type `brew install redis` on command if using Homebrew 
+   1) If Redis is not installed: Download from [Redis website](https://redis.io/), or type `brew install redis` on command if using Homebrew 
    for Mac and Linux.
-   2) `redis-server` or `brew services start redis` on command to start the Redis server. 
+   2) Type `redis-server` or `brew services start redis` on command line to start the Redis server. 
    The application uses the default Redis port of 6379.
    3) Use `redis-cli monitor` in a terminal window to log Redis requests.
    4) You can confirm the Redis cache is being utilized on repeated requests when there is no 'SET' invocation 
    following the initial 'GET' request.
-5) Run application:  
-   1) [Homepage](`http://localhost:8080`) at `http://localhost:8080`
-   2) From homepage, you can login into the system as `USER` or `ADMIN`. Details see Steps 6 below.
-   3) __Note: Only admin user has the authority to create customer user account in current version due to the 
+5) Run application:
+   1) Run the spring application in IDE. Another option is run the jar file (If no configuration change as in Step 2) 
+   in `/ExecutableJAR/Team045-0.0.1-SNAPSHOT.jar` using the following command `java -jar Team045-0.0.1-SNAPSHOT.jar`. 
+   2) [Homepage](`http://localhost:8080`) at `http://localhost:8080`
+   3) From homepage, you can login into the system as `USER` or `ADMIN`. Details see Steps 6 below.
+   4) __Note: Only admin user has the authority to create customer user account in current version due to the 
    restriction on setting user `credit`.__
 6) User authentication and authorization and password encryption:
    1) By default, there are two types of users: ``ADMIN`` and ``USER``. The authenticating users information are 
@@ -73,13 +79,8 @@ your own mysql server!__
       VALUES
       ("admin", "$2a$12$Qpk7f3lC63mOmqejFmPVZukoBVqEQp0CSSHunIYhPdtdLGVxhxwdO","ADMIN");
       ```
-7) Features:
-   1) Performance
-      1) Utilized in memory database for better performance. The application is integrated with Redis cache, and minimizing the amount of network calls by using cache rather than sending request to the database. 
-   2) Security/Authentication/Authorization:
-      1) See Step 6.
-8) When finished:
+7) When finished:
    1) Close the spring web server
    2) Shut down redis server: `ctrl + c`
-   3) Shut down mysql server if needed: ``
+   3) Shut down mysql server if it is no longer be needed.
 ## PLACEHOLDER: TO BE UPDATED

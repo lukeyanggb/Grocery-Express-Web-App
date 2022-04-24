@@ -39,11 +39,14 @@ public class Drone implements Serializable {
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "control")
     //@JoinColumn(name = "account")
     private Pilot controlledBy;
+    private String pilotAct;
 
     @JsonIgnore
     @OneToMany(mappedBy = "designatedDrone")
     private List<Order> orders;
+    private String orderorderId;
 
+    private Integer num_orders = 0;
 
     //public Drone(){}
 
@@ -90,4 +93,13 @@ public class Drone implements Serializable {
         this.currentLoad -= order.getWeight();
         this.orders.remove(order);
     }
+    public void addOrder(Order order){
+        this.orders.add(order);
+    }
+
+    public void adjust(){
+        this.num_orders = orders.size();
+        this.pilotAct = this.controlledBy.getAccount();
+    }
+
 }

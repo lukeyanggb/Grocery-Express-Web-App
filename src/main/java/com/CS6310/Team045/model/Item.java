@@ -28,16 +28,20 @@ public class Item implements Serializable {
     @JoinColumn(name = "store",referencedColumnName = "name", nullable = false)
     private Store store;
 
+    @Column(name = "unitPrice")
+    private Integer unitPrice;
 
     private String storeName;
     //@OneToMany
     //private List<ItemLine> lines;
 
 
-    public Item(String name, Integer weight, Store store){
+    public Item(String name, Integer weight, Integer unitPrice,Store store){
         this.name = name;
         this.weight = weight;
         this.store = store;
+        this.unitPrice = unitPrice;
+
     }
 
 //    public Item(){}

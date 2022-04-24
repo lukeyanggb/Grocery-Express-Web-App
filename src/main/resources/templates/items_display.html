@@ -27,12 +27,15 @@
             <tr>
         <td width="20px"><b> name</b></td>
         <td><b>weight</b> </td>
+        <td><b>unitPrice</b> </td>
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="item, iStat : ${items}" th:style="${iStat.odd}? 'font-weight: normal;'">
         <td width="20px" th:text="${item.name}">
         </td><td th:text="${item.weight}">
+    </td><td th:text="${item.unitPrice}">
 
         </td></tr>
     </tbody>
