@@ -1,4 +1,5 @@
 package com.CS6310.Team045.controller;
+import com.CS6310.Team045.services.StoreServiceImpl;
 import org.springframework.security.core.Authentication;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.services.CustomerService;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerServiceImpl customerService;
+    @Autowired
+    private StoreServiceImpl storeService;
 
     @GetMapping(value = "/user_homepage")
     public ModelAndView hello(Model model) {
@@ -50,6 +53,7 @@ public class CustomerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("start_order.html");
         modelAndView.addObject("order", new Order());
+
         return modelAndView;
     }
 
@@ -65,6 +69,7 @@ public class CustomerController {
             String requestedBy = authentication.getName();
             String droneId = order.getDroneId();
 
+
             orderId = customerService.start_order(store, id, requestedBy, droneId);
             errMsg = "OK, change_completed";
         }catch (Exception e){
@@ -74,6 +79,7 @@ public class CustomerController {
         modelAndView.setViewName("start_order_msg.html");
         modelAndView.addObject("Message", errMsg);
         modelAndView.addObject("orderId", orderId);
+
         return modelAndView;
     }
 

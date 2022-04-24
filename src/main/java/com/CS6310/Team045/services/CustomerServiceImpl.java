@@ -59,10 +59,10 @@ public class CustomerServiceImpl {
     }
 
     // create a customer
-    public void make_customer(Customer customer){
+    public void make_customer(Customer customer) throws Exception {
         Optional<Customer> opt = customerRepository.findByAccount(customer.getAccount());
         if(opt.isPresent()){
-            throw new IllegalArgumentException();
+            throw new Exception("ERROR:customer_identifier_already_exists");
         } else {
             customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             customerRepository.save(customer);
@@ -97,8 +97,8 @@ public class CustomerServiceImpl {
         }
 
         Optional<Drone> droneOpt = droneRepository.findByStore_nameAndId(storeName,droneId);
-        if (droneOpt.isPresent()) {
-            throw new Exception("ERROR:drone_identifier_already_exists");
+        if (droneOpt.isEmpty()) {
+            throw new Exception("ERROR:drone_identifier_does_not_exist");
         }
 
         Optional<Customer> customerOptional = customerRepository.findByAccount(customerAccount);
@@ -158,29 +158,34 @@ public class CustomerServiceImpl {
             throw new Exception("ERROR:item_identifier_does_not_exist");
         }
 
-//        Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
-//
-//        if (optDrone.isEmpty()) {
-//            throw new Exception("ERROR:drone_identifier_does_not_exist");
-//        }
+        List<ItemLine> itemLines = orderOpt.get().getItems();
+//        System.out.println(itemLines);
+        for(ItemLine itemLine:itemLines){
+//                    System.out.println(itemLine.getItem());
+
+            if(itemLine.getItem().equals(itemName))
+            {
+                throw new Exception("ERROR:item_already_ordered");
+            }
+        }
+
         int unitPirce = optItem.get().getUnitPrice();
         int lineweight = quantity*optItem.get().getWeight();
         int linecost = unitPirce* quantity;
         Drone drone = orderOpt.get().getDesignatedDrone();
         Customer customer = orderOpt.get().getRequestedBy();
         if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
-            if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
-
-                ItemLine itemLine = new ItemLine(itemName,quantity,orderOpt.get());
-                customer.addOutstandingOrders(linecost);
-                drone.addCurrentLoad(lineweight);
-                customerRepository.save(customer);
-                droneRepository.save(drone);
-                itemLineRepository.save(itemLine);
-            }
-            throw new Exception("ERROR:item_already_ordered");
-
-    }
+            throw new Exception("ERROR:customer_cant_afford_new_item");
+        }
+        if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()) {
+            throw new Exception("ERROR:drone_cant_carry_new_item");
+        }
+        ItemLine itemLine = new ItemLine(itemName,quantity,orderOpt.get());
+        customer.addOutstandingOrders(linecost);
+        drone.addCurrentLoad(lineweight);
+        customerRepository.save(customer);
+        droneRepository.save(drone);
+        itemLineRepository.save(itemLine);
     }
     //public void purchase(String store, String order){}
     // show all items under each order
@@ -235,15 +240,15 @@ public class CustomerServiceImpl {
 //        System.out.println(orderId);
 
         Optional<Order> order = orderRepository.findOrderByStore_nameAndId(store,orderId);
-        if(storeRepository.findStoreByName(store).isPresent()){
+        if(storeRepository.findStoreByName(store).isEmpty()) {
+            throw new Exception("ERROR:store_identifier_does_not_exist");
+        }
             if(order.isPresent()){
                 orderRepository.delete(order.get());
             } else {
                 throw new Exception("ERROR:order_identifier_does_not_exist");
             }
-        } else {
-            throw new Exception("ERROR:store_identifier_already_exists");
-        }
+
 
     }
 
