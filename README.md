@@ -43,9 +43,9 @@ your own mysql server!__
    4) You can use the mysql GUI tool such as MySQL Workbench, just create a database `6310Team045` which the 
    spring web application can run on.
 4) Start Redis server
-   1) Download redis from [Redis website](https://redis.io/), or type `brew install redis` on command if using Homebrew 
+   1) If Redis is not installed: Download from [Redis website](https://redis.io/), or type `brew install redis` on command if using Homebrew 
    for Mac and Linux.
-   2) `redis-server` or `brew services start redis` on command to start the Redis server. 
+   2) Type `redis-server` or `brew services start redis` on command line to start the Redis server. 
    The application uses the default Redis port of 6379.
    3) Use `redis-cli monitor` in a terminal window to log Redis requests.
    4) You can confirm the Redis cache is being utilized on repeated requests when there is no 'SET' invocation 
