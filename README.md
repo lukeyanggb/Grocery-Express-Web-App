@@ -84,4 +84,3 @@ your own mysql server!__
    1) Close the spring web server
    2) Shut down redis server: `ctrl + c`
    3) Shut down mysql server if it is no longer be needed.
-## PLACEHOLDER: TO BE UPDATED
