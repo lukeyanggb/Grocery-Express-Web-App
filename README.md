@@ -58,11 +58,10 @@ your own mysql server!__
 6) User authentication and authorization and password encryption:
    1) By default, there are two types of users: ``ADMIN`` and ``USER``. The authenticating users information are 
    stored in `auth_user` table.
-      1) Customer users (`USER`) are allowed to `display my orders`, `start order`, `request item`, `purchase order`, 
+      1) Customer users (`USER`) are allowed to `display my orders`, `start new order`, `request item`, `purchase order`, 
       and `cancel order`.
-      2) In addition to all `USER`'s rights/privileges, admin users (`ADMIN`) are allowed to `make store`, `stock item into store`, 
-      `make pilot`, `make drone`, `display store`, `display customers`, `display items of a store`, 
-      `display pilots of a store`, `display drones of a store`, `display orders of a store`.
+      2) In addition to all `USER`'s rights/privileges, admin users (`ADMIN`) are allowed to `make store`, `make pilot`, `make drone`, `stock item`, 
+       `display stores`, `display customers`, `display pilots`, `display items of a store`, `display drones of a store`, `display orders of a store`.
    3) The authenticating user password is encrypted by `BCryptPasswordEncoder`. Details see [BCryptPasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/bcrypt/BCryptPasswordEncoder.html) documentation.
    4) Once the application has started, you need to create a root ``ADMIN`` user (the username and password are both `admin`):
       ```sql
