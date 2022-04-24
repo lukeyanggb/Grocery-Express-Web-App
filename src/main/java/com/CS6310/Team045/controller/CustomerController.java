@@ -1,5 +1,5 @@
 package com.CS6310.Team045.controller;
-
+import org.springframework.security.core.Authentication;
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.services.CustomerService;
 import com.CS6310.Team045.services.CustomerServiceImpl;
@@ -28,6 +28,23 @@ public class CustomerController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/orders")
+    public ModelAndView display_orders(Authentication authentication) throws Exception {
+//        System.out.println(authentication.getName());
+        String errMsg;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("orders_display.html");
+        try{
+            modelAndView.addObject("orders",  customerService.display_orders_of_customer(authentication.getName()));
+//            System.out.println(customerService.display_orders_of_customer(authentication.getName()));
+            errMsg = "OK, change_completed";
+        }catch (Exception e){
+            errMsg = e.getMessage();
+        }
+        modelAndView.addObject("Message", errMsg);
+        return modelAndView;
+    }
+
     @GetMapping(value = "/start_order_form")
     public ModelAndView start_order_form() {
         ModelAndView modelAndView = new ModelAndView();
@@ -37,7 +54,7 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/start_order")
-    public ModelAndView start_order(@ModelAttribute Order order){
+    public ModelAndView start_order(@ModelAttribute Order order, Authentication authentication){
         String errMsg;
         String orderId = null;
         try{
@@ -45,10 +62,10 @@ public class CustomerController {
 //            Integer revenue = store.getRevenue();
             String store = order.getStorestoreName();
             String id = order.getId();
-            String designatedDrone = "11";
-            String requestedBy = "11";
+            String requestedBy = authentication.getName();
+            String droneId = order.getDroneId();
 
-            orderId = customerService.start_order(store, id, designatedDrone, requestedBy);
+            orderId = customerService.start_order(store, id, requestedBy, droneId);
             errMsg = "OK, change_completed";
         }catch (Exception e){
             errMsg = e.getMessage();
@@ -99,8 +116,8 @@ public class CustomerController {
             orderId = itemLine.getOrderorderId();
             String item = itemLine.getItem();
             Integer quantity = itemLine.getQuantity();
-            Integer unitPrice = 3;
-            customerService.request_item(storeName,orderId,item,quantity,unitPrice);
+//            Integer unitPrice = 3;
+            customerService.request_item(storeName,orderId,item,quantity);
             errMsg = "OK, change_completed";
         }catch (Exception e){
             errMsg = e.getMessage();

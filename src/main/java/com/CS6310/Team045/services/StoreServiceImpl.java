@@ -2,6 +2,7 @@ package com.CS6310.Team045.services;
 
 import com.CS6310.Team045.model.*;
 import com.CS6310.Team045.repository.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class StoreServiceImpl implements StoreService{
 
 
     //add item to the store catalog
-    public void addItem(String name, Integer weight, String store) throws Exception {
+    public void addItem(String name, Integer weight, Integer unitPrice, String store) throws Exception {
         //String storeName = item.getStore().getName();
 //        System.out.println(storeName);
  //       String itemName = item.getName();
@@ -74,14 +75,15 @@ public class StoreServiceImpl implements StoreService{
 //        System.out.println(store);
         Optional<Item> optItem = itemRepository.findByStore_nameAndName(store, name);
 //        System.out.println(optItem);
-        if(store.isEmpty()){
+        if(optionalStore.isEmpty()){
             throw new Exception("ERROR:store_identifier_does_not_exist");
         } else {
             if(optItem.isPresent()){
                 throw new Exception("ERROR:item_identifier_already_exists");
             } else {
-                Item item = new Item(name, weight, optionalStore.get());
-                 itemRepository.save(item);}
+                Item item = new Item(name, weight, unitPrice, optionalStore.get());
+                 itemRepository.save(item);
+            }
         }
     }
 
@@ -158,7 +160,13 @@ public class StoreServiceImpl implements StoreService{
         if(opt.isEmpty()){
             throw new Exception("ERROR:store_identifier_does_not_exist");
         }
-        return droneRepository.findDroneByStore(opt.get());
+        List<Drone> drones = droneRepository.findDroneByStore(opt.get());
+//        List<Drone> drones_out = null;
+//        for (Drone drone: drones){
+//            drone.adjust();
+//            drones_out.add(drone);
+//        }
+        return drones;
     }
 
 
@@ -168,6 +176,10 @@ public class StoreServiceImpl implements StoreService{
         if (store.isEmpty()) {
             throw new Exception("ERROR:store_identifier_does_not_exist");
         }
+//        Optional<Order> orderOpt = orderRepository.findOrderByStore_nameAndId(storeName, orderId);
+//        if (orderOpt.isEmpty()) {
+//            throw new Exception("ERROR:order_identifier_does_not_exist");
+//        }
         Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
         if (optDrone.isEmpty()) {
             throw new Exception("ERROR:drone_identifier_does_not_exist");
@@ -176,13 +188,20 @@ public class StoreServiceImpl implements StoreService{
         if (accoutOpt.isEmpty()) {
             throw new Exception("ERROR:pilot_identifier_does_not_exist");
         }
+
         //System.out.println(optDrone);
         //System.out.println(accoutOpt);
         Pilot pilot = accoutOpt.get();
         //System.out.println(accoutOpt.get().getAccount());
-        pilot.setControl(optDrone.get());
+        Drone drone = optDrone.get();
+        pilot.setControl(drone);
+        drone.setControlledBy(pilot);
+//        Order order = orderOpt.get();
+//        order.setDesignatedDrone(optDrone.get());
+//        drone.addOrder(order);
         pilotRepository.save(pilot);
-
+//        orderRepository.save(order);
+        droneRepository.save(drone);
 //        System.out.println(optDrone);
 //        System.out.println(accoutOpt);
     }
