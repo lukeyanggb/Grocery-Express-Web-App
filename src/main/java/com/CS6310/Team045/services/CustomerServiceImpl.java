@@ -174,10 +174,16 @@ public class CustomerServiceImpl {
         int linecost = unitPirce* quantity;
         Drone drone = orderOpt.get().getDesignatedDrone();
         Customer customer = orderOpt.get().getRequestedBy();
-        if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
+        if(linecost + customer.getOutstandingOrders() > customer.getCredits()){
+                        System.out.println(linecost);
+            System.out.println(customer.getOutstandingOrders());
+            System.out.println(customer.getCredits());
             throw new Exception("ERROR:customer_cant_afford_new_item");
         }
-        if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()) {
+        if(lineweight + drone.getCurrentLoad() > drone.getCapacity()) {
+//            System.out.println(lineweight);
+//            System.out.println(drone.getCurrentLoad());
+//            System.out.println(drone.getCapacity());
             throw new Exception("ERROR:drone_cant_carry_new_item");
         }
         ItemLine itemLine = new ItemLine(itemName,quantity,orderOpt.get());
@@ -244,6 +250,7 @@ public class CustomerServiceImpl {
             throw new Exception("ERROR:store_identifier_does_not_exist");
         }
             if(order.isPresent()){
+
                 orderRepository.delete(order.get());
             } else {
                 throw new Exception("ERROR:order_identifier_does_not_exist");
