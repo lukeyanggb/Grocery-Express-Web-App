@@ -11,3 +11,4 @@ public interface StoreRepository extends JpaRepository<Store,String> {
     Optional<Store> findStoreByName(String name);
 
 }
+

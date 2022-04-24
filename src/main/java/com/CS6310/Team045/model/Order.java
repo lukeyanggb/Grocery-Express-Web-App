@@ -25,6 +25,7 @@ public class Order implements Serializable {
     @JsonIgnore
     @JoinColumn(name = "designated_drone")
     private Drone designatedDrone;
+    private String droneId;
 
     @ManyToOne
     @JsonBackReference
@@ -47,20 +48,14 @@ public class Order implements Serializable {
     private int weight = 0;
     private int cost = 0;
     //public Order(){}
-    public Order(String id, Drone designatedDrone, Customer requestedBy, Store store) {
+    public Order(String id, Customer requestedBy, Store store, Drone drone) {
         this.id = id;
-        this.designatedDrone = designatedDrone;
         this.requestedBy = requestedBy;
         this.store =store;
+        this.designatedDrone = drone;
     }
 
-    public int orderCost(){
-        int res =0;
-        for(ItemLine line:this.items){
-            res += line.getQuantity()* line.getUnitPrice();
-        }
-        return res;
-    }
+
     /*
     public int orderWeight(){
         int res =0;
