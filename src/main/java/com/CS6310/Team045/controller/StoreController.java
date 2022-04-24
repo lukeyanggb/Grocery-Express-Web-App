@@ -76,17 +76,6 @@ public class StoreController {
         return modelAndView;
     }
 
-
-//    @GetMapping(value = "/hello")
-//    public ModelAndView hello(Model model) {
-//        String name = "jiangbei";
-//        model.addAttribute("name", name);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("hello.html");
-//        return modelAndView;
-//    }
-//
-
     //get all stores
     @GetMapping(value = "/stores")
     public ModelAndView findAllStores(){
