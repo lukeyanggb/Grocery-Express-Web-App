@@ -20,7 +20,6 @@ public class ItemLine implements Serializable {
     @Column(name = "item")
     //@ManyToOne
     private String item;
-    private Integer unitPrice;
     private Integer quantity;
 
     @ManyToOne
@@ -31,9 +30,8 @@ public class ItemLine implements Serializable {
     private String orderorderId;
 
 
-    public ItemLine(String item,Integer unitPrice,Integer quantity,Order order){
+    public ItemLine(String item, Integer quantity,Order order){
         this.item = item;
-        this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.order =order;
     }

@@ -126,8 +126,9 @@ public class StoreController {
 //            Integer revenue = store.getRevenue();
             String name = item.getName();
             Integer weight = item.getWeight();
+            Integer unitPrice = item.getUnitPrice();
             String storeName = item.getStoreName();
-            storeService.addItem(name,weight,storeName);
+            storeService.addItem(name,weight,unitPrice, storeName);
             errMsg = "OK, change_completed";
         }catch (Exception e){
             errMsg = e.getMessage();
@@ -304,7 +305,7 @@ public ModelAndView make_drone(@ModelAttribute Drone drone){
         errMsg = e.getMessage();
     }
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("drones_display.html");
+    modelAndView.setViewName("make_drone_msg.html");
     modelAndView.addObject("Message", errMsg);
     return modelAndView;
 }
@@ -343,8 +344,8 @@ public ModelAndView make_drone(@ModelAttribute Drone drone){
         modelAndView.setViewName("drones_display.html");
         try{
             String storeName = store.getName();
-            System.out.println(storeName);
-            System.out.println(storeService.display_drones(storeName));
+//            System.out.println(storeName);
+//            System.out.println(storeService.display_drones(storeName));
             modelAndView.addObject("drones", storeService.display_drones(storeName));
             errMsg = "OK, change_completed";
         }catch (Exception e){
@@ -373,26 +374,54 @@ public ModelAndView make_drone(@ModelAttribute Drone drone){
 //        return null;
 //    }
 
-    //fly drone
-    @PostMapping(value = "/fly_drones")
-    public void fly_drone(HttpServletRequest request){
-//        http://localhost:8080/cs6310/team045/fly_drones?storeName=kroger&pilotAccount=ffig8&droneId=1
-        //http://localhost:8080/cs6310/team045/fly_drones?storeName=target&pilotAccount=ffig8&droneId=1
-
-
-        try{
-            String storeName = request.getParameter("storeName");
-            String pilotAccount = request.getParameter("pilotAccount");
-            String droneId = request.getParameter("droneId");
-            //System.out.println(droneId);
-
-            storeService.flyDrone(storeName, pilotAccount, droneId);
-            System.out.println("OK, change_completed");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-//            System.out.println("Error:store_identifier_already_exists");
-        }
+    @GetMapping(value = "/fly_drone_form")
+    public ModelAndView fly_drone_form() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("fly_drone.html");
+        modelAndView.addObject("drone", new Drone());
+        return modelAndView;
     }
+
+
+    @PostMapping(value = "/fly_drone")
+    public ModelAndView fly_drone(@ModelAttribute Drone drone){
+        String errMsg;
+        try{
+            String storeName = drone.getStoreName();
+            String pilotAccount = drone.getPilotAct();
+            String droneId = drone.getId();
+            String orderId = drone.getOrderorderId();
+            storeService.flyDrone(storeName, pilotAccount, droneId);
+            errMsg = "OK, change_completed";
+        }catch (Exception e){
+            errMsg = e.getMessage();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("fly_drone_msg.html");
+        modelAndView.addObject("Message", errMsg);
+        return modelAndView;
+    }
+
+//    //fly drone
+//    @PostMapping(value = "/fly_drone")
+//    public void fly_drone(HttpServletRequest request){
+////        http://localhost:8080/cs6310/team045/fly_drones?storeName=kroger&pilotAccount=ffig8&droneId=1
+//        //http://localhost:8080/cs6310/team045/fly_drones?storeName=target&pilotAccount=ffig8&droneId=1
+//
+//
+//        try{
+//            String storeName = request.getParameter("storeName");
+//            String pilotAccount = request.getParameter("pilotAccount");
+//            String droneId = request.getParameter("droneId");
+//            //System.out.println(droneId);
+//
+//            storeService.flyDrone(storeName, pilotAccount, droneId);
+//            System.out.println("OK, change_completed");
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+////            System.out.println("Error:store_identifier_already_exists");
+//        }
+//    }
 
 
     @PostMapping(value = "/make_customer")

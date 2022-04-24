@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fly drone</title>
+</head>
+<body>
+<h1>Fly drone</h1>
+<form  th:action="@{/admin/cs6310/team045/fly_drone}" th:object="${drone}" method= 'post'>
+
+    <label for="id">drone id:</label>
+    <input type="text" th:field="*{id}" class="form-control"
+           id="id" placeholder="id" /> <br><br>
+
+    <label for="storeName">storeName:</label>
+    <input type="text" th:field="*{storeName}" class="form-control"
+           id="storeName" placeholder="storeName" /> <br><br>
+
+
+    <label for="pilotAct">pilot account:</label>
+    <input type="text" th:field="*{pilotAct}" class="form-control"
+           id="pilotAct" placeholder="pilotAct" /> <br><br>
+
+
+    <input type = 'submit' value = 'submit'>
+
+</form>
+<a href="/admin/cs6310/team045/admin_homepage">Go to Homepage</a><br><br>
+
+</body>
+</html>

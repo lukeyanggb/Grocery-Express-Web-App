@@ -13,11 +13,12 @@
 <table class="table table-striped table-primary">
     <thead class="ttop">
     <tr class="table-info">
-        <td width="20px"><b> id</b></td>
-        <td><b>capacity</b> </td>
-        <td><b>tripsBeforeRefueling</b> </td>
+        <td width="20px"><b> droneID</b></td>
+        <td><b>total_cap</b> </td>
+        <td><b>trips_left</b> </td>
         <td><b>currentLoad</b> </td>
-        <td><b>currentLoad</b> </td>
+<!--        <td><b>num_orders</b> </td>-->
+
     </tr>
     </thead>
     <tbody>
@@ -26,7 +27,7 @@
         </td><td th:text="${drone.capacity}">
         </td><td th:text="${drone.tripsBeforeRefueling}">
     </td><td th:text="${drone.currentLoad}">
-    </td><td th:text="${drone.currentLoad}">
+<!--    </td><td th:text="${drone.num_orders}">-->
 
 
     </td></tr>

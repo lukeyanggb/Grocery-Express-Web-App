@@ -78,7 +78,7 @@ public class CustomerServiceImpl {
     }
 
     //create an order
-    public String start_order(String storeName, String orderId, String droneId, String customerAccount) throws Exception {
+    public String start_order(String storeName, String orderId, String customerAccount, String droneId) throws Exception {
 
 //        System.out.println(storeName);
 //        System.out.println(orderId);
@@ -96,10 +96,9 @@ public class CustomerServiceImpl {
             throw new Exception("ERROR:order_identifier_already_exists");
         }
 
-        Optional<Drone> optDrone = droneRepository.findByStore_nameAndId(storeName, droneId);
-
-        if (optDrone.isEmpty()) {
-            throw new Exception("ERROR:drone_identifier_does_not_exist");
+        Optional<Drone> droneOpt = droneRepository.findByStore_nameAndId(storeName,droneId);
+        if (droneOpt.isPresent()) {
+            throw new Exception("ERROR:drone_identifier_already_exists");
         }
 
         Optional<Customer> customerOptional = customerRepository.findByAccount(customerAccount);
@@ -109,7 +108,7 @@ public class CustomerServiceImpl {
             throw new Exception("ERROR:customer_identifier_does_not_exist");
         }
 
-        Order order = new Order(orderId,optDrone.get(), customerOptional.get(),store.get());
+        Order order = new Order(orderId, customerOptional.get(),store.get(), droneOpt.get());
         orderRepository.save(order);
         return orderId;
 
@@ -126,8 +125,21 @@ public class CustomerServiceImpl {
 
     }
 
+    //show all orders of current customer
+    @Cacheable("OrderOfUser")
+    public List<Order> display_orders_of_customer(String customerAct) throws Exception {
+        if(customerRepository.findByAccount(customerAct).isPresent()){
+//            List<Order> orders = orderRepository.findAll();
+
+            return orderRepository.findOrderByRequestedBy_account(customerAct);
+        }
+        throw new Exception("ERROR:customer_identifier_does_not_exist");
+
+    }
+
+
     //add an item to the desigen order
-    public void request_item(String storeName, String orderId, String itemName, Integer quantity, Integer unitPirce) throws Exception {
+    public void request_item(String storeName, String orderId, String itemName, Integer quantity) throws Exception {
 
         Optional<Store> store = findStore(storeName);
         if (store.isEmpty()) {
@@ -151,7 +163,7 @@ public class CustomerServiceImpl {
 //        if (optDrone.isEmpty()) {
 //            throw new Exception("ERROR:drone_identifier_does_not_exist");
 //        }
-
+        int unitPirce = optItem.get().getUnitPrice();
         int lineweight = quantity*optItem.get().getWeight();
         int linecost = unitPirce* quantity;
         Drone drone = orderOpt.get().getDesignatedDrone();
@@ -159,7 +171,7 @@ public class CustomerServiceImpl {
         if(linecost + customer.getOutstandingOrders() <= customer.getCredits()){
             if(lineweight + drone.getCurrentLoad() <= drone.getCapacity()){
 
-                ItemLine itemLine = new ItemLine(itemName, unitPirce,quantity,orderOpt.get());
+                ItemLine itemLine = new ItemLine(itemName,quantity,orderOpt.get());
                 customer.addOutstandingOrders(linecost);
                 drone.addCurrentLoad(lineweight);
                 customerRepository.save(customer);
@@ -196,7 +208,11 @@ public class CustomerServiceImpl {
         Drone drone = orderOpt.get().getDesignatedDrone();
 
         Pilot pilot = drone.getControlledBy();
-        int cost = orderOpt.get().orderCost();
+        int cost =0;
+        for(ItemLine line:orderOpt.get().getItems()){
+            cost += line.getQuantity()*itemRepository.findByStore_nameAndName( storeName, line.getItem()).get().getUnitPrice();
+        }
+//        int cost = orderOpt.get().orderCost();
         int weight = OrderWeight(orderOpt.get());
         customer.pay(cost);
 //        drone.deductCurrentLoad(weight);
@@ -209,8 +225,6 @@ public class CustomerServiceImpl {
         storeRepository.save(s);
         pilotRepository.save(pilot);
         orderRepository.delete(orderOpt.get());
-
-
     }
 
 
