@@ -4,7 +4,7 @@
 ### Overview
 The Grocery Express Web Application satisfies the client's requirements. In addition, four significant architectual improvements were made:
   1) Performance: Utilized in memory database for better performance. The application is integrated with Redis cache, and minimizing the amount of network calls by using cache rather than sending request to the database
-  2) Configurability: 
+  2) Configurability: Built a front-end UI with thymeleaf. The web UI will make our application more user friendly.
   3) Authentication/Authorization: See Steps 6.
   4) Security: See Steps 6.
 
